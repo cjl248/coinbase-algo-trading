@@ -1,11 +1,10 @@
+import './Header.scss'
 import React from 'react'
 
 export default function Header() {
   return(
     <div className='header'>
-      {`Header`}
+      {`Coinbase Algorithmic Trading App`}
     </div>
   )
 }
-
-// export default Header
