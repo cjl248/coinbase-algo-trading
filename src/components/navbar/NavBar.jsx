@@ -21,8 +21,18 @@ export default function SimpleMenu({setPage}) {
     setPage(e.currentTarget.attributes[4].value)
   }
 
+  const handleButtonClick = () => {
+    setPage('account')
+  }
+
   return (
     <div className='nav-bar'>
+      <Button
+        color='primary'
+        variant='contained'
+        onClick={handleButtonClick}>
+        {`Accounts`}
+      </Button>
       <Button
         color='primary'
         variant='contained'

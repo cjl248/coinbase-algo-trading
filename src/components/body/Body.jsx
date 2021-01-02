@@ -1,7 +1,8 @@
 import './Body.scss'
 import React from 'react'
 
-import Main from '../main/Main.jsx'
+import Accounts from '../account/Accounts.jsx'
+import Algorithms from '../algorithms/Algorithms.jsx'
 import NavBar from '../navbar/NavBar.jsx'
 
 const pages ={
@@ -14,10 +15,18 @@ export default function Body() {
 
   const [page, setPage] = React.useState('a1')
 
+  const renderMain = () => {
+    if (page === 'account') {
+      return (<Accounts page={page}></Accounts>)
+    } else {
+      return (<Algorithms page={pages[page]}></Algorithms>)
+    }
+  }
+
   return(
     <div className='body'>
       <NavBar setPage={setPage}></NavBar>
-      <Main page={pages[page]}></Main>
+      {renderMain()}
     </div>
   )
 }
