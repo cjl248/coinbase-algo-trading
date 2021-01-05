@@ -1,14 +1,17 @@
 import React from 'react'
 
-import Balance from './Home/Balance.jsx'
+import Orders from './Home/Orders.jsx'
 import Assets from './Home/Assets.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
+const pAPI = 'http://localhost:3000/c_products'
 
 export default class Home  extends React.Component {
 
   state = {
     accounts: [],
+    prices: [],
+    portfolioBalance: 0,
   }
 
   getAccounts = async () => {
@@ -22,6 +25,25 @@ export default class Home  extends React.Component {
     response.json().then(accounts => {
       this.setState({
         accounts
+      }, () => {
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            "Accepts": "application/json",
+          }
+        }
+        this.state.accounts.map(account => {
+          if (account.balance > 0 && account.currency !== 'USD') {
+            const currency = account.currency
+            const requestPath = `${pAPI}?product=${currency}-USD`
+            fetch(requestPath, config).then(r => r.json())
+            .then(price => {
+              this.setState({
+                prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}]
+              })
+            })
+          }
+        })
       })
     })
   }
@@ -29,8 +51,14 @@ export default class Home  extends React.Component {
   render() {
     return (
       <div className='home-container'>
-        <Balance accounts={this.state.accounts}></Balance>
-        <Assets accounts={this.state.accounts}></Assets>
+        <Orders
+          accounts={this.state.accounts}
+          prices={this.state.prices}>
+        </Orders>
+        <Assets
+          accounts={this.state.accounts}
+          prices={this.state.prices}>
+        </Assets>
         <div className='col2-row1'></div>
         <div className='col2-row2'></div>
       </div>
