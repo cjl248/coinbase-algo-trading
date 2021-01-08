@@ -22,7 +22,7 @@ export default class Prices extends React.Component {
     const { prices } = this.state
     return Object.keys(prices).map((crypto, index)=> {
       return (
-        <div className='price'>
+        <div className='price' key={index}>
           <span
             className='currency'>
             {`${crypto}: `}
@@ -37,6 +37,7 @@ export default class Prices extends React.Component {
   }
 
   render() {
+
     return (
       <div className='prices-container'>
         <div className='prices-header'>{`Live Cryptocurrency Prices`}</div>
