@@ -2,12 +2,12 @@ import React from 'react'
 
 import Button from '@material-ui/core/Button'
 
-export default function MainNavBar({activePage}) {
+export default function MainNavBar({activePage, activateModal}) {
 
   const formatText = () => activePage[0].toUpperCase()+activePage.slice(1)
 
-  const handleLimitOrder = () => console.log("Limit Order")
-  const handleMarketOrder = () => console.log("Market Order")
+  const handleLimitOrder = () => activateModal()
+  const handleMarketOrder = () => activateModal()
 
   return (
     <div className='main-navbar'>
