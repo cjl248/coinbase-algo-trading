@@ -34,7 +34,7 @@ export default function MainContainer({activePage}) {
   const renderActivePage = () => {
     switch(activePage) {
       case 'home':
-        return (<Home></Home>)
+        return (<Home activeAccounts={activeAccounts}></Home>)
       case 'portfolio':
         return (<Portfolio></Portfolio>)
       case 'prices':

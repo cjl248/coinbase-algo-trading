@@ -15,38 +15,8 @@ export default class Home  extends React.Component {
   state = {
     accounts: [],
     prices: [],
-    orders: [],
+    orders: {},
     dollarBalance: 0,
-    modal: true,
-  }
-
-  getOrders = async () => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json",
-      }
-    }
-    return this.state.accounts.map(account => {
-      let requestPath = ''
-      if (account.balance > 0 && account.currency !== 'USD') {
-        for (let key in account) {
-          if (key === 'currency') {
-            requestPath = `${oAPI}?product=${account[key]}-USD`
-          }
-        }
-        if(this.state.orders.length <= 3) {
-          fetch(requestPath, config)
-            .then(r => r.json())
-            .then(data => {
-                this.setState({
-                  orders: data
-                })
-            })
-        }
-      }
-      return 0
-    })
   }
 
   getAccounts = async () => {
@@ -76,8 +46,6 @@ export default class Home  extends React.Component {
               this.setState({
                 prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}],
                 // dollarBalance: this.state.dollarBalance+this.precise(account.balance*price.price)
-              }, () => {
-                this.getOrders()
               })
             })
           } else if (account.currency === 'USD') {
@@ -87,6 +55,34 @@ export default class Home  extends React.Component {
           }
           return 0
         })
+      })
+    })
+  }
+
+  getProductIds = () => {
+    const { activeAccounts } = this.props
+    return activeAccounts.map(account => {
+      return `${account.currency}-USD`
+    })
+  }
+
+  getActiveOrders = () => {
+    return this.getProductIds().map(product => {
+      const requestPath = `${oAPI}?product=${product}`
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+        }
+      }
+      fetch(requestPath, config)
+      .then(r => r.json())
+      .then(orders => {
+        if (orders.length > 0) {
+          this.setState({
+            orders: {...this.state.orders, [product]: orders}
+          })
+        }
       })
     })
   }
@@ -112,6 +108,7 @@ export default class Home  extends React.Component {
 
   componentDidMount() {
     this.getAccounts()
+    this.getActiveOrders()
   }
 
   componentDidUpdate() {
