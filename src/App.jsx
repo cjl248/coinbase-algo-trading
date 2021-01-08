@@ -10,7 +10,7 @@ import MainContainer from './components/MainContainer.jsx'
 class App extends React.Component {
 
   state = {
-    activePage: 'home'
+    activePage: 'prices'
   }
 
   setActivePage = (page) => {
