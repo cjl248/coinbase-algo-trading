@@ -55,7 +55,6 @@ export default class Prices extends React.Component {
 
       // eslint-disable-next-line
       this.state.socket.onopen = () => {
-        console.log("connected")
         const subscribe = {
           "type": "subscribe",
           "product_ids": this.getProductIds(),
@@ -72,9 +71,9 @@ export default class Prices extends React.Component {
       // eslint-disable-next-line
       this.state.socket.onmessage = (message) => {
         try {
-          const response = JSON.parse(message.data);
+          const response = JSON.parse(message.data)
           if (response.type === 'ticker'){
-            this.getProductIds().map(id => {
+            return this.getProductIds().map(id => {
               if (response.product_id === id) {
                 this.setState({
                   prices: {...this.state.prices, [id]: response.price}
@@ -91,7 +90,6 @@ export default class Prices extends React.Component {
 
       // eslint-disable-next-line
       this.state.socket.onclose = () => {
-        console.log("disconnected");
         this.setState({socket: null})
       }
 

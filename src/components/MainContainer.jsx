@@ -42,7 +42,7 @@ export default function MainContainer({activePage}) {
       case 'prices':
         return (<Prices activeAccounts={activeAccounts}></Prices>)
       case 'algorithms':
-        return (<Algorithms></Algorithms>)
+        return (<Algorithms activeAccounts={activeAccounts}></Algorithms>)
       default:
         return (<Home></Home>)
     }
