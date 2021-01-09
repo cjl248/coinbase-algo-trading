@@ -76,9 +76,9 @@ export default class Prices extends React.Component {
           if (response.type === 'ticker'){
             this.getProductIds().map(id => {
               if (response.product_id === id) {
-                  this.setState({
-                    prices: {...this.state.prices, [id]: response.price}
-                  })
+                this.setState({
+                  prices: {...this.state.prices, [id]: response.price}
+                })
               }
               return 0
             })

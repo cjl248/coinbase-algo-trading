@@ -111,7 +111,4 @@ export default class Home  extends React.Component {
     this.getActiveOrders()
   }
 
-  componentDidUpdate() {
-
-  }
 }
