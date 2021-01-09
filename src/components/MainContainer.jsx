@@ -6,6 +6,7 @@ import Home from './Main/Home.jsx'
 import Portfolio from './Main/Portfolio.jsx'
 import Prices from './Main/Prices.jsx'
 import Algorithms from './Main/Algorithms.jsx'
+import Modal from './Modal.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
 
@@ -24,6 +25,7 @@ export default function MainContainer({activePage}) {
     fetch(aAPI, config)
       .then(r => r.json())
       .then(accounts => {
+        if (!accounts) return
         const aAccounts = accounts.filter((account) => {
           return account.balance > 0 && account.currency !== 'USD'
         })
@@ -36,7 +38,7 @@ export default function MainContainer({activePage}) {
       case 'home':
         return (<Home activeAccounts={activeAccounts}></Home>)
       case 'portfolio':
-        return (<Portfolio></Portfolio>)
+        return (<Portfolio activeAccounts ={activeAccounts}></Portfolio>)
       case 'prices':
         return (<Prices activeAccounts={activeAccounts}></Prices>)
       case 'algorithms':
@@ -73,9 +75,7 @@ export default function MainContainer({activePage}) {
       </div>
     </div>
     <div className={modalClass()}>
-      <div className='modal-content'>
-        <div className='modal-title'>{`BUY/SELL`}</div>
-      </div>
+      <Modal activeAccounts={activeAccounts}></Modal>
     </div>
     </>
   )

@@ -177,7 +177,7 @@ $border-color: #ECEFF1;
     align-items: flex-start;
     margin: 20px;
     padding: 5% 5px 30px 10%;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: white;
 
     > .orders-title {
@@ -232,7 +232,7 @@ $border-color: #ECEFF1;
     align-items: flex-start;
     margin: 20px;
     padding: 5% 5px 5px 10%;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: white;
 
     > .assets-title {
@@ -289,7 +289,7 @@ $border-color: #ECEFF1;
 
     margin: 20px;
     padding: 5% 5px 5px 7.5%;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: white;
 
     > .signals-title {
@@ -324,7 +324,7 @@ $border-color: #ECEFF1;
 
     margin: 20px;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: white;
   }
 
@@ -367,6 +367,73 @@ $border-color: #ECEFF1;
       >span.exchange {
         font-weight: bold;
       }
+    }
+  }
+}
+
+.portfolio-container {
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: auto auto;
+
+  > .portfolio-balance-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: white;
+    margin: 20px;
+    padding: 5% 20px 30px 10%;
+    border: 1px solid $border-color;
+    border-radius: 10px;
+
+    > .p-balance-title {
+      font-size: 28px;
+      font-weight: bold;
+      border-bottom: 1px solid $border-color;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    > .balances {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      font-size: 20px;
+
+      > .p-price {
+        width: 50%;
+        display: flex;
+        flex-direction: row;
+        font-weight: bold;
+        margin: 5px 0 5px 0;
+        border-bottom: 1px solid $border-color;
+
+        > .p-currency {
+          width: 30%;
+          color: $coinbase-blue;
+        }
+
+        > .p-value {
+
+        }
+      }
+    }
+  }
+
+  > .portfolio-assets-container {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    background-color: white;
+    margin: 20px;
+    padding: 5% 20px 30px 10%;
+    border-radius: 10px;
+
+    > .p-assets-title {
+      font-size: 28px;
+      font-weight: bold;
+
     }
   }
 }
