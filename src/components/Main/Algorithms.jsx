@@ -12,11 +12,34 @@ export default class Algorithms extends React.Component {
     socket: null,
     prices: {},
     bands: {},
+    granularity: 3600,
+    fibonacciRetracement: {}
+  }
+
+  setGranularity = (granularity) => {
+    this.setState({granularity})
   }
 
   getProductIds = () => {
     return this.props.activeAccounts.map(account => {
       return `${account.currency}-USD`
+    })
+  }
+
+  getFibonacciRetracement = (productId, granularity) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json"
+      }
+    }
+    const requestPath = `${pAPI}/get_fibonacci_retracement?product=${productId}&granularity=${granularity}`
+    fetch(requestPath, config)
+    .then(r => r.json())
+    .then(fibonacciRetracement => {
+      this.setState({
+        fibonacciRetracement
+      })
     })
   }
 
@@ -40,7 +63,7 @@ export default class Algorithms extends React.Component {
   // 86400 (1day), 21600 (6hours), 3600(1hr)
   getAllBands = () => {
     return this.getProductIds().map(id => {
-      this.getBands(id, 3600)
+      this.getBands(id, this.state.granularity)
     })
   }
 
@@ -49,10 +72,16 @@ export default class Algorithms extends React.Component {
     return (
       <div className='algorithms-container'>
         <div className='bollinger-bands'>
-          <Bands bands={this.state.bands}></Bands>
+          <Bands
+            bands={this.state.bands}
+            granularity={this.state.granularity}
+            setGranularity={this.setGranularity}>
+          </Bands>
         </div>
         <div className='fibonacci-retracement'>
-          <Fibonacci></Fibonacci>
+          <Fibonacci
+            fibonacci={this.state.fibonacci}>
+          </Fibonacci>
         </div>
         <div className='moving-averages'>
         </div>
@@ -60,10 +89,20 @@ export default class Algorithms extends React.Component {
     )
   }
 
+  getSnapshotBeforeUpdate(prevProps, prevState){
+    if (this.state.granularity !== prevState.granularity) {
+      return  this.getAllBands()
+    }
+    return null
+  }
 
+  componentDidUpdate() {
+
+  }
 
   componentDidMount() {
     this.getAllBands()
+    this.getFibonacciRetracement("XLM-USD", 3600)
 
     const ws = new WebSocket(websocketAPI)
     this.setState({socket: ws}, () => {

@@ -8,9 +8,9 @@ const aAPI = 'http://localhost:3000/c_accounts'
 const pAPI = 'http://localhost:3000/c_products'
 const oAPI = 'http://localhost:3000/c_orders'
 
-export default class Home  extends React.Component {
+export default class Home extends React.Component {
 
-  precise = float => Number.parseFloat(float).toPrecision(5)
+  precise = float => Number.parseFloat(float).toPrecision(6)
 
   state = {
     accounts: [],
@@ -38,7 +38,7 @@ export default class Home  extends React.Component {
           }
         }
         return this.state.accounts.map(account => {
-          if (account.balance > 0 && account.currency !== 'USD') {
+          if (account.balance > 0 && account.currency !== 'USD' && account.currency !== 'USDC') {
             const currency = account.currency
             const requestPath = `${pAPI}?product=${currency}-USD`
             fetch(requestPath, config).then(r => r.json())
@@ -48,9 +48,18 @@ export default class Home  extends React.Component {
                 // dollarBalance: this.state.dollarBalance+this.precise(account.balance*price.price)
               })
             })
-          } else if (account.currency === 'USD') {
+          } else if (account.balance > 0 && account.currency === 'USDC') {
+            const { dollarBalance } = this.state
+            const { precise } = this
             this.setState({
-              dollarBalance: this.precise(account.balance)
+              dollarBalance: dollarBalance + precise(account.balance)
+            })
+
+          } else if (account.balance > 0 && account.currency === 'USD') {
+            const { dollarBalance } = this.state
+            const { precise } = this
+            this.setState({
+              dollarBalance: dollarBalance + precise(account.balance)
             })
           }
           return 0
