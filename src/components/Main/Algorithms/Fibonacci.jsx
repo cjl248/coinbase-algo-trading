@@ -1,6 +1,15 @@
 import React from 'react'
 
 export default class Fibonacci extends React.Component {
+
+  getProductIds = () => {
+    
+  }
+
+  getFibonacciRetracement = () => {
+
+  }
+
   render() {
     return (
       <>
@@ -11,5 +20,9 @@ export default class Fibonacci extends React.Component {
       </div>
       </>
     )
+  }
+
+  componentDidMount() {
+    this.getFibonacciRetracement()
   }
 }
