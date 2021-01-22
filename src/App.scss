@@ -56,13 +56,13 @@ $border-color: #ECEFF1;
         cursor: pointer;
       }
 
-      > span.item-icon {
+      span.item-icon {
         flex: 3 3 25%;
 
         margin-top: 5px;
       }
 
-      > span.item-text {
+      span.item-text {
         flex: 7 7 75%;
 
         font-size: 14px;
@@ -80,13 +80,13 @@ $border-color: #ECEFF1;
       border-radius: 5px;
       color: $coinbase-blue;
 
-      > span.item-icon {
+      span.item-icon {
         flex: 3 3 25%;
 
         margin-top: 5px;
       }
 
-      > span.item-text {
+      span.item-text {
         flex: 7 7 75%;
 
         font-size: 14px;
@@ -110,7 +110,7 @@ $border-color: #ECEFF1;
     flex-direction: row;
     align-items: center;
 
-    > .main-navbar {
+    .main-navbar {
       height: 100%;
       width: 100%;
       padding: 0 10px 0 10px;
@@ -120,7 +120,7 @@ $border-color: #ECEFF1;
       display: flex;
       flex-direction: row;
 
-      > .navbar-active-page {
+      .navbar-active-page {
         flex: 1 1 10%;
 
         display: flex;
@@ -132,10 +132,10 @@ $border-color: #ECEFF1;
 
       }
 
-      > .navbar-middle-placeholder {
+      .navbar-middle-placeholder {
         flex: 3 3 30%;
       }
-      > .navbar-buttons {
+      .navbar-buttons {
         flex: 6 6 60%;
 
         display: flex;
@@ -143,7 +143,7 @@ $border-color: #ECEFF1;
         justify-content: flex-end;
         align-items: center;
 
-        > button {
+        button {
           width: 150px;
           margin-left: 20px;
         }
@@ -167,7 +167,7 @@ $border-color: #ECEFF1;
   grid-template-columns: 70% 30%;
   grid-template-rows: auto auto;
 
-  > .orders-container {
+  .orders-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
@@ -181,14 +181,14 @@ $border-color: #ECEFF1;
     border-radius: 10px;
     background-color: white;
 
-    > .orders-title {
+    .orders-title {
       font-size: 28px;
       font-weight: bolder;
       font-color: $coinbase-blue;
       margin-bottom: 20px;
     }
 
-    > .orders-headers {
+    .orders-headers {
       display: flex;
       flex-direction: row;
       width: 80%;
@@ -199,30 +199,30 @@ $border-color: #ECEFF1;
       margin-bottom: 5px;
       padding-bottom: 5px;
 
-      > div {
+      div {
         margin: 2.5px 7.5px 2.5px 7.5px;
       }
     }
 
-    > .orders {
+    .orders {
       display: flex;
       flex-direction: column;
       width: 80%;
       font-size: 18px;
 
-      > .order {
+      .order {
         display: flex;
         flex-direction: row;
         border-bottom: .5px solid $border-color;
 
-        > div {
+        div {
           margin: 2.5px 7.5px 2.5px 7.5px;
         }
       }
     }
   }
 
-  > .assets-container {
+  .assets-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 2;
@@ -236,20 +236,20 @@ $border-color: #ECEFF1;
     border-radius: 10px;
     background-color: white;
 
-    > .assets-title {
+    .assets-title {
       font-size: 28px;
       font-weight: bolder;
       color: black;
       margin-bottom: 40px;
     }
 
-    > .assets {
+    .assets {
       width: 75%;
       display: flex;
       flex-direction: column;
       padding-bottom: 20px;
 
-      > .asset-section-titles {
+      .asset-section-titles {
         font-size: 24px;
         font-weight: bold;
         color: $coinbase-blue;
@@ -258,7 +258,7 @@ $border-color: #ECEFF1;
         border-bottom: 2px solid $border-color;
       }
 
-      > .asset {
+      .asset {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -268,7 +268,7 @@ $border-color: #ECEFF1;
         border-bottom: .5px solid $border-color;
 
 
-        > span.icon-currency-group {
+        span.icon-currency-group {
           width: 100px;
           display: flex;
           flex-direction: row;
@@ -282,7 +282,7 @@ $border-color: #ECEFF1;
     }
   }
 
-  > .signals-container {
+  .signals-container {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -293,7 +293,7 @@ $border-color: #ECEFF1;
     border-radius: 10px;
     background-color: white;
 
-    > .signals-title {
+    .signals-title {
       font-size: 24px;
       font-weight: bolder;
       padding-bottom: 5px;
@@ -301,7 +301,7 @@ $border-color: #ECEFF1;
       border-bottom: 1px solid $border-color;
     }
 
-    > .signals-group {
+    .signals-group {
       width: 95%;
       height: 40%;
       display: flex;
@@ -309,7 +309,7 @@ $border-color: #ECEFF1;
       justify-content: center;
       align-items: space-between;
 
-      > .algo-signal {
+      .algo-signal {
         margin: 5px 0 5px 0;
         border-bottom: .5px solid $border-color;
 
@@ -317,7 +317,7 @@ $border-color: #ECEFF1;
     }
   }
 
-  > .col2-row2 {
+  .col2-row2 {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 2;
@@ -340,18 +340,18 @@ $border-color: #ECEFF1;
   padding: 5% 30px 30px 10%;
   margin: 20px;
 
-  > .prices-header {
+  .prices-header {
     font-size: 28px;
     font-weight: bold;
     border-bottom: 1px solid $border-color;
     padding-bottom: 10px;
     margin-bottom: 20px;
   }
-  > .prices {
+  .prices {
     display: flex;
     flex-direction: column;
 
-    > .price {
+    .price {
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -359,13 +359,13 @@ $border-color: #ECEFF1;
       font-size: 20px;
       width: 500px;
 
-      > span.currency {
+      span.currency {
         width: 30%;
         color: $coinbase-blue;
         font-weight: bolder;
       }
 
-      >span.exchange {
+      span.exchange {
         font-weight: bold;
       }
     }
@@ -377,7 +377,7 @@ $border-color: #ECEFF1;
   grid-template-columns: 100%;
   grid-template-rows: auto auto;
 
-  > .portfolio-balance-container {
+  .portfolio-balance-container {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
@@ -388,20 +388,20 @@ $border-color: #ECEFF1;
     border: 1px solid $border-color;
     border-radius: 10px;
 
-    > .p-balance-title {
+    .p-balance-title {
       font-size: 28px;
       font-weight: bold;
       border-bottom: 1px solid $border-color;
       padding-bottom: 10px;
       margin-bottom: 20px;
     }
-    > .balances {
+    .balances {
       display: flex;
       flex-direction: column;
       width: 100%;
       font-size: 20px;
 
-      > .p-price {
+      .p-price {
         width: 50%;
         display: flex;
         flex-direction: row;
@@ -409,12 +409,12 @@ $border-color: #ECEFF1;
         margin: 5px 0 5px 0;
         border-bottom: 1px solid $border-color;
 
-        > .p-currency {
+        .p-currency {
           width: 30%;
           color: $coinbase-blue;
         }
 
-        > .p-value {
+        .p-value {
 
         }
       }
@@ -431,7 +431,7 @@ $border-color: #ECEFF1;
     padding: 5% 20px 30px 10%;
     border-radius: 10px;
 
-    > .p-assets-title {
+    .p-assets-title {
       font-size: 28px;
       font-weight: bold;
 
@@ -465,7 +465,7 @@ $border-color: #ECEFF1;
     grid-row-end: 2;
     margin: 0px 0 40px 0;
 
-    > .bands-main-title-section {
+    .bands-main-title-section {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -479,49 +479,54 @@ $border-color: #ECEFF1;
       border-radius: 10px;
       width: 80%;
 
-      > .title {
+      .title {
 
       }
 
-      > .granularity-options {
+      .granularity-options {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         align-items: center;
         width: 60%;
 
-        > .current-granularity {
+        .current-granularity {
           font-size: 14px;
           margin-right: 20px;
         }
       }
     }
 
-    > .bands-container {
+    .bands-container {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       flex-wrap: wrap;
       height: 500px;
       width: 80%;
+      overflow-y: scroll;
       background-color: white;
       margin: 20px 20px 20px 20px;
       padding: 2.5% 20px 20px 5%;
       border: 1px solid $border-color;
       border-radius: 10px;
 
-      > .b-currency {
-        margin: 10px 0 10px 0;
+      .b-currency {
+        margin: 15px 60px 15px 60px;
+        width: 225px;
 
-        > .b-currency-title {
+        .b-currency-title {
           font-size: 20px;
           font-weight: bolder;
           color: $coinbase-blue;
+          padding-bottom: 2.5px;
+          margin-right: 10px;
+          border-bottom: 1px solid $border-color;
         }
 
-        > .b-level {
+        .b-level {
           margin: 0px 0 0px 0;
 
-          > .level-title {
+          .level-title {
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -537,28 +542,190 @@ $border-color: #ECEFF1;
     grid-row-start: 2;
     grid-row-end: 3;
 
-    > .fibonacci-main-title {
-      font-size: 24px;
-      font-weight: bold;
+    .fibonacci-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
       background-color: white;
       margin: 20px 20px 20px 20px;
       padding: 2.5% 20px 20px 5%;
       border: 1px solid $border-color;
       border-radius: 10px;
       width: 80%;
+
+      .fibonacci-main-title {
+        font-size: 24px;
+        font-weight: bold;
+
+        .select-form {
+
+        }
+
+
+
+      }
     }
 
-    > .fibonacci-container {
+
+    .fibonacci-container {
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap;
-      height: 500px;
+      height: auto;
       width: 80%;
       background-color: white;
       margin: 20px 20px 20px 20px;
       padding: 2.5% 20px 20px 5%;
       border: 1px solid $border-color;
       border-radius: 10px;
+
+      .fibonacci-stats {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        height: auto;
+        justify-content: space-evenly;
+        align-items: center;
+        margin-bottom: 30px;
+
+        h3 {
+          padding-bottom: 5px;
+          color: $coinbase-blue;
+          border-bottom: 1px solid $border-color;
+        }
+
+        .day-stats {
+          width: 40%;
+          margin: 0 auto;
+
+          .high {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+
+          }
+
+          .current {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+
+          }
+
+          .low {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+
+          }
+        }
+
+        .historical-stats {
+          width: 40%;
+          margin: 0 auto;
+
+          .max {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+          }
+
+          .mean {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+          }
+
+          .min {
+            display: flex;
+            margin: 0px 5px 5px 5px;
+            width: auto;
+
+            .label {
+              font-size: 17px;
+              font-weight: bold;
+              width: 100px;
+            }
+            .stat {
+              width: auto;
+            }
+          }
+        }
+      }
+
+      .combined-stats-container {
+        display: flex;
+        flex-direction: column;
+
+        .combined-stats {
+          width: 670px;
+          margin: 0 auto;
+
+          .breakpoint {
+            width: 180px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: 5px 0;
+
+          }
+
+          .label {
+            font-weight: bold;
+            color: $coinbase-blue
+          }
+
+          .stat {
+            width: 100px;
+          }
+
+        }
+      }
     }
   }
 
@@ -586,7 +753,7 @@ $border-color: #ECEFF1;
   align-items: center;
   justify-content: center;
 
-  > .modal-content {
+  .modal-content {
     height: 100%;
     width: 100%;
     background-color: white;
@@ -600,7 +767,7 @@ $border-color: #ECEFF1;
     align-items: center;
     justify-content: flex-start;
 
-    > .modal-title {
+    .modal-title {
       font-size: 28px;
       color: $coinbase-blue;
     }

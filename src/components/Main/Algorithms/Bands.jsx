@@ -3,17 +3,14 @@ import Button from '@material-ui/core/Button'
 
 export default class Bands extends React.Component {
 
-  state = {
-
-  }
-
   precise = (float) => Number.parseFloat(float).toPrecision(5)
 
   renderBands = () => {
     const { bands } = this.props
     return Object.keys(bands).map(currency => {
-      return Object.keys(bands[currency]).map((level, index) => {
-        const stats = bands[currency][level]
+      if (currency !== 'USDC-USD') {
+        return Object.keys(bands[currency]).map((level, index) => {
+          const stats = bands[currency][level]
           return (
             <div className='b-currency' key={index}>
               <div className='b-currency-title'>{`Currency: ${currency}`}</div>
@@ -25,7 +22,8 @@ export default class Bands extends React.Component {
               </div>
             </div>
           )
-      })
+        })
+      } else return
     })
   }
 
