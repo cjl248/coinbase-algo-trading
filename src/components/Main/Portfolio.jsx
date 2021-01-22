@@ -59,8 +59,10 @@ export default function Portfolio({activeAccounts}) {
         }
       }
 
-      socket.onclose = () => {
-        setSocket(null)
+      return function cleanup() {
+        socket.onclose = () => {
+          setSocket(null)
+        }
       }
     }
 
@@ -71,6 +73,7 @@ export default function Portfolio({activeAccounts}) {
           "product_ids": getProductIds(),
           "channels": [ "ticker" ]
         }
+        socket.send(JSON.stringify(unsubscribe))
         socket.close()
       }
     }

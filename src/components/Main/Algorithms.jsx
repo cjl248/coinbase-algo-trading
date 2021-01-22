@@ -13,7 +13,12 @@ export default class Algorithms extends React.Component {
     prices: {},
     bands: {},
     granularity: 3600,
-    fibonacciRetracement: {}
+    fibonacciRetracement: {},
+    activeFibonacciCurrency: 'BTC-USD'
+  }
+
+  setActiveFibonacciCurrency = (activeFibonacciCurrency) => {
+    this.setState({activeFibonacciCurrency})
   }
 
   setGranularity = (granularity) => {
@@ -80,7 +85,10 @@ export default class Algorithms extends React.Component {
         </div>
         <div className='fibonacci-retracement'>
           <Fibonacci
-            fibonacci={this.state.fibonacci}>
+            fibonacci={this.state.fibonacciRetracement}
+            activeAccounts={this.props.activeAccounts}
+            activeFibonacciCurrency={this.state.activeFibonacciCurrency}
+            setActiveFibonacciCurrency={this.setActiveFibonacciCurrency}>
           </Fibonacci>
         </div>
         <div className='moving-averages'>
@@ -91,9 +99,15 @@ export default class Algorithms extends React.Component {
 
   getSnapshotBeforeUpdate(prevProps, prevState){
     if (this.state.granularity !== prevState.granularity) {
-      return  this.getAllBands()
+      const {granularity, activeFibonacciCurrency} = this.state
+      this.getAllBands()
+      return this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
     }
-    return null
+    if (this.state.activeFibonacciCurrency !== prevState.activeFibonacciCurrency) {
+      const {granularity, activeFibonacciCurrency} = this.state
+      return this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+    }
+    return 0
   }
 
   componentDidUpdate() {
@@ -101,8 +115,9 @@ export default class Algorithms extends React.Component {
   }
 
   componentDidMount() {
+    const {granularity, activeFibonacciCurrency} = this.state
     this.getAllBands()
-    this.getFibonacciRetracement("XLM-USD", 3600)
+    this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
 
     const ws = new WebSocket(websocketAPI)
     this.setState({socket: ws}, () => {

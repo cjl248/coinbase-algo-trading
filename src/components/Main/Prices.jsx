@@ -89,11 +89,6 @@ export default class Prices extends React.Component {
       }
 
       // eslint-disable-next-line
-      this.state.socket.onclose = () => {
-        this.setState({socket: null})
-      }
-
-      // eslint-disable-next-line
       this.state.socket.onerror = (error) => {
         console.log("There was an error: ", error);
       }
@@ -101,6 +96,7 @@ export default class Prices extends React.Component {
   }
 
   componentWillUnmount() {
+
     const unsubscribe = {
       "type": "unsubscribe",
       "product_ids": this.getProductIds(),
@@ -108,5 +104,10 @@ export default class Prices extends React.Component {
     }
     this.state.socket.send(JSON.stringify(unsubscribe))
     this.state.socket.close()
+
+    // eslint-disable-next-line
+    this.state.socket.onclose = () => {
+      this.setState({socket: null})
+    }
   }
 }
