@@ -107,7 +107,7 @@ export default class Prices extends React.Component {
 
     // eslint-disable-next-line
     this.state.socket.onclose = () => {
-      this.setState({socket: null})
+      // this.setState({socket: null})
     }
   }
 }

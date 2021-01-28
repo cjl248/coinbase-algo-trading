@@ -11,6 +11,8 @@ export default function Modal({ activeAccounts }) {
   const [marketOrder, toggleMarketOrder] = React.useState(false)
   const [allAccounts, setAllAccounts] = React.useState([])
 
+  const [message, setMessage] = React.useState(null)
+
   const getAllAccounts = () => {
     const config = {
       method: 'GET',
@@ -33,6 +35,7 @@ export default function Modal({ activeAccounts }) {
           action={buy}
           activeAccounts={activeAccounts}
           allAccounts={allAccounts}
+          setMessage={setMessage}
         />
       )
     } else {
@@ -40,13 +43,28 @@ export default function Modal({ activeAccounts }) {
         <LimitOrder
           action={buy}
           activeAccounts={activeAccounts}
+          allAccounts={allAccounts}
+          setMessage={setMessage}
         />
       )
     }
   }
 
+  const renderMessage = () => {
+    if (message) {
+      return (
+        <h4>{message}</h4>
+      )
+    } else {
+      return
+    }
+  }
+
   React.useEffect(() => {
-    getAllAccounts()
+    if (allAccounts.length === 0) {
+      getAllAccounts()
+    }
+
   })
 
   return (
@@ -64,9 +82,11 @@ export default function Modal({ activeAccounts }) {
           toggleMarketOrder={toggleMarketOrder}
         />
       </div>
-      <div>
-        <div className='order-container'></div>
+        <div className='order-container'>
           {renderMain()}
+        </div>
+        <div className='message-container'>
+          {renderMessage()}
         </div>
     </div>
   )

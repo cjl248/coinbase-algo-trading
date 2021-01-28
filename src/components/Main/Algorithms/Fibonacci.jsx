@@ -17,11 +17,11 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
   }
 
 
-  const getProductIds = () => {
-    return activeAccounts.map(account => {
-      return `${account.currency}-USD`
-    })
-  }
+  // const getProductIds = () => {
+  //   return activeAccounts.map(account => {
+  //     return `${account.currency}-USD`
+  //   })
+  // }
 
   const renderMenuItems =  () => {
     return activeAccounts.map((account, index) => {
@@ -32,7 +32,7 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
             {account.currency}
           </MenuItem>
         )
-      } else return
+      } else return null
     })
   }
 
@@ -93,7 +93,7 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
   const renderCombinedStats = () => {
     if (fibonacci && fibonacci.historical_stats && fibonacci.day_stats) {
       const fibBreakPoints = [23.6, 38.2, 61.8, 78.6]
-      const { max, mean, min } = fibonacci.historical_stats
+      const { max, min } = fibonacci.historical_stats
       const { high, last, low } = fibonacci.day_stats
 
       const belowHigh = max-low

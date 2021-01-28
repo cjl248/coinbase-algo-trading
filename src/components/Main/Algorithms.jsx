@@ -69,7 +69,7 @@ export default class Algorithms extends React.Component {
   // 86400 (1day), 21600 (6hours), 3600(1hr)
   getAllBands = () => {
     return this.getProductIds().map(id => {
-      this.getBands(id, this.state.granularity)
+      return this.getBands(id, this.state.granularity)
     })
   }
 
@@ -108,8 +108,9 @@ export default class Algorithms extends React.Component {
     if (this.state.activeFibonacciCurrency !== prevState.activeFibonacciCurrency) {
       const {granularity, activeFibonacciCurrency} = this.state
       return this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+    } else {
+    return null
     }
-    return 0
   }
 
   componentDidUpdate() {
@@ -146,10 +147,10 @@ export default class Algorithms extends React.Component {
           if (response.type === 'ticker') {
             return this.getProductIds().map(id => {
               if (response.product_id === id) {
-                this.setState({
+                return this.setState({
                   prices: {...this.state.prices, [id]: response.price}
                 })
-              }
+              } else return null
             })
           }
         } catch (e) {
@@ -163,22 +164,23 @@ export default class Algorithms extends React.Component {
         console.log("There was an error: ", error.json());
       }
 
-      // eslint-disable-next-line
-      this.state.socket.onclose = () => {
-        this.setState({socket: null})
-      }
+
 
     })
   }
 
   componentWillUnmount() {
-    const unsubscribe = {
-      "type": "unsubscribe",
-      "product_ids": this.getProductIds(),
-      "channels": [ "ticker" ]
+    // eslint-disable-next-line
+    this.state.socket.onclose = () => {
+      const unsubscribe = {
+        "type": "unsubscribe",
+        "product_ids": this.getProductIds(),
+        "channels": [ "ticker" ]
+      }
+      this.state.socket.send(JSON.stringify(unsubscribe))
+      this.state.socket.close()
     }
-    this.state.socket.send(JSON.stringify(unsubscribe))
-    this.state.socket.close()
+    this.setState({socket: null})
   }
 
 }

@@ -23,7 +23,7 @@ export default class Bands extends React.Component {
             </div>
           )
         })
-      } else return
+      } else return null
     })
   }
 
