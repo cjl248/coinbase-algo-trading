@@ -1,6 +1,7 @@
 import React from 'react'
 import Bands from './Algorithms/Bands.jsx'
 import Fibonacci from './Algorithms/Fibonacci.jsx'
+import MovingAverages from './Algorithms/MovingAverages.jsx'
 
 const pAPI = 'http://localhost:3000/c_products'
 const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
@@ -92,6 +93,7 @@ export default class Algorithms extends React.Component {
           </Fibonacci>
         </div>
         <div className='moving-averages'>
+          <MovingAverages></MovingAverages>
         </div>
       </div>
     )

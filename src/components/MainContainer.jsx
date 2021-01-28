@@ -27,7 +27,7 @@ export default function MainContainer({activePage}) {
       .then(accounts => {
         if (!accounts) return
         const aAccounts = accounts.filter((account) => {
-          return account.balance > 0 && account.currency !== 'USD'
+          return account.balance > 0
         })
         setActiveAccounts(aAccounts)
       })
@@ -51,13 +51,8 @@ export default function MainContainer({activePage}) {
   const mainClass = () => modal ? 'main-container blur' : 'main-container'
   const modalClass = () => modal ? 'modal-show' : 'modal-hide'
 
-  const deactivateModal = () => {
-    if (modal) setModal(false)
-  }
-
-  const activateModal = () => {
-    if (!modal) setModal(true)
-  }
+  const activateModal = () => { if (!modal) setModal(true) }
+  const deactivateModal = () => { if (modal) setModal(false) }
 
   return (
     <>

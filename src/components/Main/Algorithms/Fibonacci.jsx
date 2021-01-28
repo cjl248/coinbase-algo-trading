@@ -7,9 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCurrency, setActiveFibonacciCurrency }) {
 
-  const [activeCurrency, setActiveCurrency] = React.useState('BTC-USD')
-
   const precision = (float, p) => Number.parseFloat(float).toPrecision(p)
+
   const subtract = (n1, n2) => {
     return parseFloat(n1)-parseFloat(n2)
   }
@@ -26,7 +25,7 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
 
   const renderMenuItems =  () => {
     return activeAccounts.map((account, index) => {
-      if (account.currency !== 'USDC') {
+      if (account.currency !== 'USDC' && account.currency !== 'USD') {
         return (
           <MenuItem key={index}
             value={`${account.currency}-USD`}>
@@ -37,9 +36,7 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
     })
   }
 
-  const handleChange = (e) => {
-    setActiveFibonacciCurrency(e.target.value)
-  }
+  const handleChange = (e) => setActiveFibonacciCurrency(e.target.value)
 
   // Renders high, last, low stats for the day
   const renderDayStats = () => {

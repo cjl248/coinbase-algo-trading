@@ -191,7 +191,7 @@ $border-color: #ECEFF1;
     .orders-headers {
       display: flex;
       flex-direction: row;
-      width: 80%;
+      width: 90%;
       font-size: 22px;
       font-weight: bold;
       color: $coinbase-blue;
@@ -200,14 +200,15 @@ $border-color: #ECEFF1;
       padding-bottom: 5px;
 
       div {
-        margin: 2.5px 7.5px 2.5px 7.5px;
+        width: 100px;
+        margin: 2.5px 2.5px 2.5px 2.5px;
       }
     }
 
     .orders {
       display: flex;
       flex-direction: column;
-      width: 80%;
+      width: 90%;
       font-size: 18px;
 
       .order {
@@ -216,7 +217,8 @@ $border-color: #ECEFF1;
         border-bottom: .5px solid $border-color;
 
         div {
-          margin: 2.5px 7.5px 2.5px 7.5px;
+          width: 100px;
+          margin: 2.5px 2.5px 2.5px 2.5px;
         }
       }
     }
@@ -734,6 +736,36 @@ $border-color: #ECEFF1;
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
+
+    .moving-averages-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      background-color: white;
+      margin: 20px 20px 20px 20px;
+      padding: 2.5% 20px 20px 5%;
+      border: 1px solid $border-color;
+      border-radius: 10px;
+      width: 80%;
+
+      .moving-averages-title {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+
+    .moving-averages-main {
+      display: flex;
+      flex-direction: column;
+      height: 600px;
+      width: 80%;
+      background-color: white;
+      margin: 20px 20px 20px 20px;
+      padding: 2.5% 20px 20px 5%;
+      border: 1px solid $border-color;
+      border-radius: 10px;
+    }
   }
 
 }
@@ -744,10 +776,11 @@ $border-color: #ECEFF1;
 
 .modal-show{
   position: absolute;
-  top: 15%;
+  top: 12.5%;
   left: 35%;
   height: 60vh;
   width: 35vw;
+  max-width: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -768,8 +801,50 @@ $border-color: #ECEFF1;
     justify-content: flex-start;
 
     .modal-title {
-      font-size: 28px;
+      font-size: 30px;
+      font-weight: bold;
       color: $coinbase-blue;
+      margin-bottom: 10px;
     }
+
+    .switch-group {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0 5px;
+      margin-bottom: 10px;
+
+      .switch-labels {
+        font-weight: bold;
+      }
+    }
+
+    .order-container {
+      display: flex;
+      flex-direction: column;
+    }
+    .market-order {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .market-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .input-group {
+
+    }
+
+
+    .limit-order {
+
+    }
+
   }
 }

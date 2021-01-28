@@ -8,7 +8,7 @@ export default class Bands extends React.Component {
   renderBands = () => {
     const { bands } = this.props
     return Object.keys(bands).map(currency => {
-      if (currency !== 'USDC-USD') {
+      if (currency !== 'USDC-USD' && currency !== 'USD-USD') {
         return Object.keys(bands[currency]).map((level, index) => {
           const stats = bands[currency][level]
           return (
