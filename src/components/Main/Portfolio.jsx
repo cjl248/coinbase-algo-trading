@@ -9,13 +9,14 @@ export default function Portfolio({activeAccounts}) {
 
   const precise = (float, precision) => Number.parseFloat(float).toPrecision(precision)
 
-  const getProductIds = () => {
-    return activeAccounts.map(account => {
-      return `${account.currency}-USD`
-    })
-  }
-
   React.useEffect(() => {
+
+    const getProductIds = () => {
+      return activeAccounts.map(account => {
+        return `${account.currency}-USD`
+      })
+    }
+
     if (!socket) {
       setSocket(new WebSocket(websocketAPI))
     }
@@ -40,8 +41,8 @@ export default function Portfolio({activeAccounts}) {
           if (response.type === 'ticker'){
             getProductIds().map(id => {
               if (response.product_id === id) {
-                setPrices({...prices, [id]: response.price})
-              }
+                return setPrices({...prices, [id]: response.price})
+              } else return null
             })
           }
         } catch (e) {
@@ -61,12 +62,18 @@ export default function Portfolio({activeAccounts}) {
 
       return function cleanup() {
         socket.onclose = () => {
-          setSocket(null)
+          const unsubscribe = {
+            "type": "unsubscribe",
+            "product_ids": getProductIds(),
+            "channels": [ "ticker" ]
+          }
+          socket.send(JSON.stringify(unsubscribe))
+          socket.close()
         }
       }
     }
 
-    return function unsubscribe() {
+    return function cleanup() {
       if (socket) {
         const unsubscribe = {
           "type": "unsubscribe",
@@ -78,7 +85,7 @@ export default function Portfolio({activeAccounts}) {
       }
     }
 
-  }, [activeAccounts, socket, setSocket, prices, setPrices, getProductIds])
+  }, [activeAccounts, socket, setSocket, prices, setPrices])
 
   const renderAssets = () => {
     return activeAccounts.map((account, index) => {
@@ -98,6 +105,7 @@ export default function Portfolio({activeAccounts}) {
           )
         }
       }
+      return null
     })
   }
 

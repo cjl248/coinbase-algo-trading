@@ -62,7 +62,7 @@ export default class Home extends React.Component {
               dollarBalance: dollarBalance + precise(account.balance)
             })
           }
-          return 0
+          return null
         })
       })
     })
@@ -84,7 +84,7 @@ export default class Home extends React.Component {
           "Accepts": "application/json",
         }
       }
-      fetch(requestPath, config)
+      return fetch(requestPath, config)
       .then(r => r.json())
       .then(orders => {
         if (orders.length > 0) {

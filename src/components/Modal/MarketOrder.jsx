@@ -11,17 +11,11 @@ import Button from '@material-ui/core/Button'
 * side, product_id funds
 */
 
-const oAPI = "http://localhost:3000/c_orders"
+const oAPI = "http://localhost:3000/c_orders/market_order"
 
-export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) {
+export default function MarketOrder({ action, activeAccounts, allAccounts=[], setMessage }) {
 
-  // const [state, setState] = React.useState({
-  //   side: action,
-  //   productId: 'BTC-USD',
-  //   funds: '',
-  // })
-
-  const [productId, setProductId] = React.useState('BTC-USD')
+  const [productId, setProductId] = React.useState('')
   const [funds, setFunds] = React.useState(0)
 
   const resolveSide = () => {
@@ -32,16 +26,16 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) 
     }
   }
 
-  const getFunds = () => {
-    return activeAccounts.map(account => {
-      if (account.currency !== 'USD' && account.currency !== 'USDC') {
-      } else if (account.currency === 'USD') {
-        return setFunds(funds + account.value)
-      } else if (account.currency === 'USDC') {
-        return setFunds(funds + account.value)
-      }
-    })
-  }
+  // const getFunds = () => {
+  //   return activeAccounts.map(account => {
+  //     if (account.currency !== 'USD' && account.currency !== 'USDC') {
+  //     } else if (account.currency === 'USD') {
+  //       return setFunds(funds + account.value)
+  //     } else if (account.currency === 'USDC') {
+  //       return setFunds(funds + account.value)
+  //     }
+  //   })
+  // }
 
   const renderMenuItems =  () => {
     // true is sell
@@ -54,7 +48,7 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) 
               {account.currency}
             </MenuItem>
           )
-        } else return
+        } else return null
       })
     } else { // false is buy
       return allAccounts.map((account, index) => {
@@ -65,14 +59,20 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) 
               {account.currency}
             </MenuItem>
           )
-        } else return
+        } else return null
       })
     }
   }
 
-  const handleChange = (e) => setProductId(`${e.target.value}`)
+  const handleChange = (e) => {
+    setMessage(null)
+    setProductId(`${e.target.value}`)
+  }
 
-  const handleFundsChange = (e) => setFunds(e.target.value)
+  const handleFundsChange = (e) => {
+    setMessage(null)
+    setFunds(e.target.value)
+  }
 
   const handleOrder = () => {
 
@@ -91,7 +91,13 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) 
     fetch(oAPI, config)
     .then(r => r.json())
     .then(data => {
-      console.log(data)
+      if (data && data.message) {
+        setMessage(data.message)
+        setFunds(0)
+      } else {
+        setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
+        setFunds(0)
+      }
     })
 
   }
@@ -114,13 +120,13 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[] }) 
         </FormControl>
         <TextField
           variant='outlined'
-          color='default'
+          color='primary'
           label='Funds ($)'
           value={funds}
           onChange={handleFundsChange}>
         </TextField>
         <Button
-          style={{marginTop: '40px'}}
+          style={{marginTop: '10px'}}
           variant='contained'
           color='primary'
           onClick={handleOrder}>
