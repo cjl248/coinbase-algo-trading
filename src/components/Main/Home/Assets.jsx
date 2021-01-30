@@ -5,7 +5,7 @@ import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutline
 
 import Loading from '../../Loading.jsx'
 
-export default function Assets({accounts, prices, calculatePortfolioBalance, dollarBalance}) {
+export default function Assets({ accounts, prices, calculatePortfolioBalance, dollarBalance, dollarcoinBalance }) {
 
   React.useEffect(() => {
     if (dollarValues.length <= prices.length - 1) {
@@ -45,7 +45,7 @@ export default function Assets({accounts, prices, calculatePortfolioBalance, dol
         return (
           <div className='asset' key ={index} >
             <span className='icon-currency-group'>
-            <CheckCircleOutlinedIcon />
+              <CheckCircleOutlinedIcon />
               <span className='currency'>{account.currency}</span>
             </span>
             <span className='balance'>{account.balance}</span>
@@ -56,26 +56,26 @@ export default function Assets({accounts, prices, calculatePortfolioBalance, dol
   }
 
   const renderDollarValues = () => {
-    return dollarValues.map((crypto, index) => {
-      for (let key in crypto) {
-        return (
-          <div className='asset' key ={index} >
-            <span className='icon-currency-group'>
-            <MonetizationOnOutlinedIcon />
-              <span className='currency'>{key}</span>
-            </span>
-            <span className='balance'>{`$${crypto[key]}`}</span>
-          </div>
-        )
-      }
-      return 0
+    const withDollarValues = [...dollarValues, {'USD': dollarBalance}, {'USDC': dollarcoinBalance}]
+    return withDollarValues.map((crypto, index) => {
+        for (let key in crypto) {
+          return (
+            <div className='asset' key ={index} >
+              <span className='icon-currency-group'>
+                <MonetizationOnOutlinedIcon />
+                <span className='currency'>{key}</span>
+              </span>
+              <span className='balance'>{`$${precise(crypto[key])}`}</span>
+            </div>
+          )
+        } return null
     })
   }
 
   return (
     <div className='assets-container'>
       <div className='assets-title'>
-        {`Assets: $${precise(parseFloat(sum)+parseFloat(dollarBalance))}`}
+        {`Assets: $${precise(parseFloat(sum)+parseFloat(dollarBalance)+parseFloat(dollarcoinBalance))}`}
       </div>
         <div className='assets'>
           <div className='asset-section-titles'>{`Dollar Values`}</div>

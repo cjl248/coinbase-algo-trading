@@ -6,8 +6,7 @@ export default function MainNavBar({activePage, activateModal}) {
 
   const formatText = () => activePage[0].toUpperCase()+activePage.slice(1)
 
-  const handleLimitOrder = () => activateModal()
-  const handleMarketOrder = () => activateModal()
+  const handleOrder = () => activateModal()
 
   return (
     <div className='main-navbar'>
@@ -20,14 +19,8 @@ export default function MainNavBar({activePage, activateModal}) {
         <Button
           color='primary'
           variant='contained'
-          onClick={handleLimitOrder}>
-          {`LIMIT ORDER`}
-        </Button>
-        <Button
-          color='secondary'
-          variant='contained'
-          onClick={handleMarketOrder}>
-          {`MARKET ORDER`}
+          onClick={handleOrder}>
+          {`LIMIT / MARKET ORDER`}
         </Button>
       </div>
     </div>
