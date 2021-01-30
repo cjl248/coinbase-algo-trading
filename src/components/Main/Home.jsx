@@ -17,10 +17,12 @@ export default class Home extends React.Component {
     prices: [],
     orders: {},
     dollarBalance: 0,
+    dollarcoinBalance: 0,
   }
 
   getAccounts = async () => {
     const config = {
+      method: 'GET',
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json",
@@ -32,6 +34,7 @@ export default class Home extends React.Component {
         accounts
       }, () => {
         const config = {
+          method: 'GET',
           headers: {
             "Content-Type": "application/json",
             "Accepts": "application/json",
@@ -45,21 +48,16 @@ export default class Home extends React.Component {
             .then(price => {
               this.setState({
                 prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}],
-                // dollarBalance: this.state.dollarBalance+this.precise(account.balance*price.price)
               })
             })
           } else if (account.balance > 0 && account.currency === 'USDC') {
-            const { dollarBalance } = this.state
-            const { precise } = this
             this.setState({
-              dollarBalance: dollarBalance + precise(account.balance)
+              dollarcoinBalance: account.balance
             })
 
           } else if (account.balance > 0 && account.currency === 'USD') {
-            const { dollarBalance } = this.state
-            const { precise } = this
             this.setState({
-              dollarBalance: dollarBalance + precise(account.balance)
+              dollarBalance: account.balance
             })
           }
           return null
@@ -106,7 +104,8 @@ export default class Home extends React.Component {
         <Assets
           accounts={this.state.accounts}
           prices={this.state.prices}
-          dollarBalance={this.state.dollarBalance}>
+          dollarBalance={this.state.dollarBalance}
+          dollarcoinBalance={this.state.dollarcoinBalance}>
         </Assets>
         <Signals>
         </Signals>
