@@ -13,11 +13,11 @@ import Button from '@material-ui/core/Button'
 
 const oAPI = "http://localhost:3000/c_orders/limit_order"
 
-export default function LimitOrder({ buy, action, activeAccounts, allAccounts, setMessage }) {
+export default function LimitOrder({ modal, buy, action, activeAccounts, allAccounts, setMessage }) {
 
-  const [productId, setProductId] = React.useState('BTC-USD')
-  const [size, setSize] = React.useState(0)
-  const [price, setPrice] = React.useState(0)
+  const [productId, setProductId] = React.useState('')
+  const [size, setSize] = React.useState(1)
+  const [price, setPrice] = React.useState(1)
 
   const resolveSide = () => {
     if (!action) {
@@ -33,12 +33,35 @@ export default function LimitOrder({ buy, action, activeAccounts, allAccounts, s
   }
 
   const handlePriceChange = (e) => {
-    setPrice(e.target.value)
+    if (Math.sign(e.target.value) === -1) {
+      setMessage('Price must be positive')
+      setPrice(-e.target.value)
+    } else if (Math.sign(e.target.value) === 1) {
+      setMessage('')
+      setPrice(e.target.value)
+    } else if (e.target.value.toString().includes('-') || isNaN(e.target.value) === true) {
+      setMessage('Please enter a valid number value for price')
+      setPrice(1)
+    } else {
+      setMessage('Size must be af valid number value greater than 0')
+      setPrice(1)
+    }
   }
 
   const handleSizeChange = (e) => {
-    setMessage(null)
-    setSize(e.target.value)
+    if (Math.sign(e.target.value) === -1) {
+      setMessage('Size must be positive')
+      setSize(-e.target.value)
+    } else if (Math.sign(e.target.value) === 1) {
+      setMessage('')
+      setSize(e.target.value)
+    } else if (e.target.value.toString().includes('-') || isNaN(e.target.value) === true) {
+      setMessage('Please enter a valid number value for size')
+      setSize(1)
+    } else {
+      setMessage('Size must be a valid number value greater than 0')
+      setSize(1)
+    }
   }
 
   const renderMenuItems =  () => {
@@ -69,40 +92,55 @@ export default function LimitOrder({ buy, action, activeAccounts, allAccounts, s
   }
 
   const handleOrder = () => {
-    const config = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accepts': 'application/json'
-      },
-      body: JSON.stringify({
-        side: resolveSide(),
-        productId,
-        size,
-        price
+    if (productId === '') {
+      setMessage('Please choose a product from the dropdown')
+    } else {
+      const config = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accepts': 'application/json'
+        },
+        body: JSON.stringify({
+          side: resolveSide(),
+          productId,
+          size,
+          price
+        })
+      }
+      fetch(oAPI, config)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.message) {
+          setMessage(data.message)
+          setSize(0)
+          setPrice(0)
+        } else {
+          setMessage(`${data.side.toUpperCase()} order st $${price} for ${data.size} of ${data.product_id} placed successfully`)
+          setSize(0)
+          setPrice(0)
+        }
       })
     }
-    fetch(oAPI, config)
-    .then(r => r.json())
-    .then(data => {
-      if (data && data.message) {
-        setMessage(data.message)
-        setSize(0)
-        setPrice(0)
-      } else {
-        setMessage(`${data.side.toUpperCase()} order st $${price} for ${data.size} of ${data.product_id} placed successfully`)
-        setSize(0)
-        setPrice(0)
-      }
-    })
   }
+
+  React.useEffect(() => {
+
+    return function cleanup() {
+      if (modal === false) {
+        setMessage('')
+        setPrice(1)
+        setSize(1)
+      }
+    }
+  })
 
   return (
     <div className='limit-order'>
       <div className='limit-title'>{`Limit Order`}</div>
       <div className='input-group' style={{display: 'flex', flexDirection: 'column'}}>
         <FormControl variant="outlined" style={{width: '200px'}}>
-          <InputLabel id="demo-simple-select-outlined-label">{`Asset`}</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">{`Product`}</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
@@ -113,6 +151,7 @@ export default function LimitOrder({ buy, action, activeAccounts, allAccounts, s
           </Select>
         </FormControl>
         <TextField
+          type='number'
           variant='outlined'
           color='primary'
           label='Size'
@@ -120,9 +159,10 @@ export default function LimitOrder({ buy, action, activeAccounts, allAccounts, s
           onChange={handleSizeChange}>
         </TextField>
         <TextField
+          type='number'
           variant='outlined'
           color='primary'
-          label='Limit Price'
+          label='Limit Price ($)'
           value={price}
           onChange={handlePriceChange}>
         </TextField>

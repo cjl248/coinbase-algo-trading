@@ -13,10 +13,10 @@ import Button from '@material-ui/core/Button'
 
 const oAPI = "http://localhost:3000/c_orders/market_order"
 
-export default function MarketOrder({ action, activeAccounts, allAccounts=[], setMessage }) {
+export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage }) {
 
   const [productId, setProductId] = React.useState('')
-  const [funds, setFunds] = React.useState(0)
+  const [funds, setFunds] = React.useState(1)
 
   const resolveSide = () => {
     if (!action) {
@@ -25,17 +25,6 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[], se
       return "sell"
     }
   }
-
-  // const getFunds = () => {
-  //   return activeAccounts.map(account => {
-  //     if (account.currency !== 'USD' && account.currency !== 'USDC') {
-  //     } else if (account.currency === 'USD') {
-  //       return setFunds(funds + account.value)
-  //     } else if (account.currency === 'USDC') {
-  //       return setFunds(funds + account.value)
-  //     }
-  //   })
-  // }
 
   const renderMenuItems =  () => {
     // true is sell
@@ -70,45 +59,71 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[], se
   }
 
   const handleFundsChange = (e) => {
-    setMessage(null)
-    setFunds(e.target.value)
+    if (Math.sign(e.target.value) === -1) {
+      setMessage('Funds must be positive')
+      setFunds(-e.target.value)
+    } else if (Math.sign(e.target.value) === 1) {
+      setMessage('')
+      setFunds(e.target.value)
+    } else if(e.target.value.toString().includes('-') || isNaN(e.target.value) === true) {
+      setMessage('Please enter a valid number value for funds')
+      setFunds(1)
+    } else {
+      setMessage('Funds must be a valid number value greater than 0')
+      setFunds(1)
+    }
   }
 
   const handleOrder = () => {
-
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json",
-      },
-      body: JSON.stringify({
-        side: resolveSide(),
-        productId,
-        funds
+    if (productId === '') {
+      setMessage('Please choose a product from the dropdown')
+      return null
+    } else {
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+        },
+        body: JSON.stringify({
+          side: resolveSide(),
+          productId,
+          funds
+        })
+      }
+      fetch(oAPI, config)
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.message) {
+          setMessage(data.message)
+          setFunds('')
+          console.log(data);
+        } else if (data) {
+          setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
+          setFunds('')
+        } else {
+          setMessage('Something went wrong')
+        }
       })
     }
-    fetch(oAPI, config)
-    .then(r => r.json())
-    .then(data => {
-      if (data && data.message) {
-        setMessage(data.message)
-        setFunds(0)
-      } else {
-        setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
-        setFunds(0)
-      }
-    })
 
   }
 
-  resolveSide()
+  React.useEffect(() => {
+    return function cleanup() {
+      if (modal === false) {
+        setMessage('')
+        setFunds(1)
+      }
+    }
+  })
+
   return (
     <div className='market-order'>
       <div className='market-title'>{`Market Order`}</div>
       <div className='input-group' style={{display: 'flex', flexDirection: 'column'}}>
         <FormControl variant="outlined" style={{width: '200px', margin: '10px 0'}}>
-          <InputLabel id="demo-simple-select-outlined-label">{`Asset`}</InputLabel>
+          <InputLabel id="demo-simple-select-outlined-label">{`Product`}</InputLabel>
           <Select
             labelId="demo-simple-select-outlined-label"
             id="demo-simple-select-outlined"
@@ -119,6 +134,7 @@ export default function MarketOrder({ action, activeAccounts, allAccounts=[], se
           </Select>
         </FormControl>
         <TextField
+          type='number'
           variant='outlined'
           color='primary'
           label='Funds ($)'

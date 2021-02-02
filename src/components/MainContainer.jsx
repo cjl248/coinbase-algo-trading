@@ -70,7 +70,7 @@ export default function MainContainer({activePage}) {
       </div>
     </div>
     <div className={modalClass()}>
-      <Modal activeAccounts={activeAccounts}></Modal>
+      <Modal modal={modal} activeAccounts={activeAccounts}></Modal>
     </div>
     </>
   )
