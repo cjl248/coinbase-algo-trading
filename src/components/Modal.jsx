@@ -5,7 +5,7 @@ import LimitOrder from './Modal/LimitOrder.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
 
-export default function Modal({ activeAccounts }) {
+export default function Modal({ modal, activeAccounts }) {
 
   const [buy, toggleBuy] = React.useState(false)
   const [marketOrder, toggleMarketOrder] = React.useState(false)
@@ -36,6 +36,7 @@ export default function Modal({ activeAccounts }) {
           activeAccounts={activeAccounts}
           allAccounts={allAccounts}
           setMessage={setMessage}
+          modal={modal}
         />
       )
     } else {
@@ -45,6 +46,7 @@ export default function Modal({ activeAccounts }) {
           activeAccounts={activeAccounts}
           allAccounts={allAccounts}
           setMessage={setMessage}
+          modal={modal}
         />
       )
     }

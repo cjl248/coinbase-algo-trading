@@ -6,7 +6,6 @@ import Signals from './Home/Signals.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
 const pAPI = 'http://localhost:3000/c_products'
-const oAPI = 'http://localhost:3000/c_orders'
 
 export default class Home extends React.Component {
 
@@ -18,6 +17,7 @@ export default class Home extends React.Component {
     orders: {},
     dollarBalance: 0,
     dollarcoinBalance: 0,
+    controller: new AbortController()
   }
 
   getAccounts = async () => {
@@ -26,80 +26,62 @@ export default class Home extends React.Component {
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json",
-      }
+      },
+      signal: this.state.controller.signal
     }
-    const response = await fetch(aAPI, config)
-    response.json().then(accounts => {
-      this.setState({
-        accounts
-      }, () => {
-        const config = {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-            "Accepts": "application/json",
+    try {
+      const response = await fetch(aAPI, config)
+      response.json().then(accounts => {
+        this.setState({
+          accounts
+        }, () => {
+          const config = {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+              "Accepts": "application/json",
+            },
+            signal: this.state.controller.signal
           }
-        }
-        return this.state.accounts.map(account => {
-          if (account.balance > 0 && account.currency !== 'USD' && account.currency !== 'USDC') {
-            const currency = account.currency
-            const requestPath = `${pAPI}?product=${currency}-USD`
-            fetch(requestPath, config).then(r => r.json())
-            .then(price => {
-              this.setState({
-                prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}],
+          return this.state.accounts.map(account => {
+            if (account.balance > 0 && account.currency !== 'USD' && account.currency !== 'USDC') {
+              const currency = account.currency
+              const requestPath = `${pAPI}?product=${currency}-USD`
+              fetch(requestPath, config)
+              .then(r => r.json())
+              .then(price => {
+                this.setState({
+                  prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}],
+                })
               })
-            })
-          } else if (account.balance > 0 && account.currency === 'USDC') {
-            this.setState({
-              dollarcoinBalance: account.balance
-            })
+            } else if (account.balance > 0 && account.currency === 'USDC') {
+              this.setState({
+                dollarcoinBalance: account.balance
+              })
 
-          } else if (account.balance > 0 && account.currency === 'USD') {
-            this.setState({
-              dollarBalance: account.balance
-            })
-          }
-          return null
+            } else if (account.balance > 0 && account.currency === 'USD') {
+              this.setState({
+                dollarBalance: account.balance
+              })
+            }
+            return null
+          })
         })
       })
-    })
-  }
-
-  getProductIds = () => {
-    const { activeAccounts } = this.props
-    return activeAccounts.map(account => {
-      return `${account.currency}-USD`
-    })
-  }
-
-  getActiveOrders = () => {
-    return this.getProductIds().map(product => {
-      const requestPath = `${oAPI}?product=${product}`
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          "Accepts": "application/json",
-        }
+    } catch(e) {
+      if (e.name === 'AbortError') {
+        console.warn('Accounts fetch aborted.')
+      } else {
+        throw e
       }
-      return fetch(requestPath, config)
-      .then(r => r.json())
-      .then(orders => {
-        if (orders.length > 0) {
-          this.setState({
-            orders: {...this.state.orders, [product]: orders}
-          })
-        }
-      })
-    })
+    }
   }
 
   render() {
     return (
       <div className='home-container'>
         <Orders
-          accounts={this.state.accounts}
-          orders={this.state.orders}>
+          accounts={this.state.accounts}>
         </Orders>
         <Assets
           accounts={this.state.accounts}
@@ -116,7 +98,10 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     this.getAccounts()
-    this.getActiveOrders()
+  }
+
+  componentWillUnmount() {
+    this.state.controller.abort()
   }
 
 }

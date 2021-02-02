@@ -1,15 +1,37 @@
 import React from 'react'
+import Button from '@material-ui/core/Button'
 
-const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
+const websocketAPI = "wss://ws-feed.pro.coinbase.com"
+const productListAPI = "http://localhost:3000/c_products/list"
 
 export default class Prices extends React.Component {
 
   state = {
     socket: null,
-    prices: {}
+    productList: [],
+    prices: {},
   }
 
   precise = (float, precision) => Number.parseFloat(float).toPrecision(precision)
+
+  getAllProducts = async () => {
+    const config = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      }
+    }
+    const response = await fetch(productListAPI, config)
+    response.json().then(data => {
+      const productList = data.map(product => {
+        return product.id
+      })
+      this.setState({
+        productList
+      })
+    })
+  }
 
   getProductIds = () => {
     const { activeAccounts } = this.props
@@ -36,11 +58,41 @@ export default class Prices extends React.Component {
     })
   }
 
-  render() {
+  handlePriceSort = () => {
+    const { prices } = this.state
+    const priceArray = []
+    for (let product in prices) {
+      priceArray.push({
+        name: product,
+        price: prices[product],
+      })
+    }
+    const sortedByPrices = priceArray.sort((a, b) => {
+      return b.price - a.price
+    })
+    console.log(sortedByPrices);
+  }
 
+  render() {
     return (
       <div className='prices-container'>
-        <div className='prices-header'>{`Live Cryptocurrency Prices`}</div>
+        <span className='header-container'>
+          <div className='prices-header'>{`Live Cryptocurrency Prices`}</div>
+          <span className='sort-label'>{`Sort By: `}</span>
+          <span className='prices-button-group'>
+            <Button
+              color='primary'
+              variant='contained'
+              onClick={this.handlePriceSort}>
+              {`Price`}
+            </Button>
+            <Button
+              color='primary'
+              variant='contained'>
+              {`Name`}
+            </Button>
+          </span>
+        </span>
         <div className='prices'>
           {this.renderPrices()}
         </div>
@@ -49,6 +101,7 @@ export default class Prices extends React.Component {
   }
 
   componentDidMount() {
+    this.getAllProducts()
 
     const ws = new WebSocket(websocketAPI)
     this.setState({socket: ws}, () => {
@@ -57,11 +110,11 @@ export default class Prices extends React.Component {
       this.state.socket.onopen = () => {
         const subscribe = {
           "type": "subscribe",
-          "product_ids": this.getProductIds(),
+          "product_ids": this.state.productList,
           "channels": [
             {
               "name": "ticker",
-              "product_ids": this.getProductIds()
+              "product_ids": this.state.productList
             }
           ]
         }
@@ -73,7 +126,7 @@ export default class Prices extends React.Component {
         try {
           const response = JSON.parse(message.data)
           if (response.type === 'ticker'){
-            return this.getProductIds().map(id => {
+            return this.state.productList.map(id => {
               if (response.product_id === id) {
                 this.setState({
                   prices: {...this.state.prices, [id]: response.price}
@@ -97,17 +150,17 @@ export default class Prices extends React.Component {
 
   componentWillUnmount() {
 
-    const unsubscribe = {
-      "type": "unsubscribe",
-      "product_ids": this.getProductIds(),
-      "channels": [ "ticker" ]
-    }
-    this.state.socket.send(JSON.stringify(unsubscribe))
+    // const unsubscribe = {
+    //   "type": "unsubscribe",
+    //   "product_ids": this.state.productList,
+    //   "channels": [ "ticker" ]
+    // }
+    // this.state.socket.send(JSON.stringify(unsubscribe))
     this.state.socket.close()
 
     // eslint-disable-next-line
-    this.state.socket.onclose = () => {
+    // this.state.socket.onclose = () => {
       // this.setState({socket: null})
-    }
+    // }
   }
 }
