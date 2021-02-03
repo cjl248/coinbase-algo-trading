@@ -103,13 +103,15 @@ export default class Algorithms extends React.Component {
     if (this.state.granularity !== prevState.granularity) {
       const {granularity, activeFibonacciCurrency} = this.state
       this.getAllBands()
-      return this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+      this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+      return null
     }
     if (this.state.activeFibonacciCurrency !== prevState.activeFibonacciCurrency) {
       const {granularity, activeFibonacciCurrency} = this.state
-      return this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+      this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
+      return null
     } else {
-    return null
+      return null
     }
   }
 
@@ -171,16 +173,16 @@ export default class Algorithms extends React.Component {
 
   componentWillUnmount() {
     // eslint-disable-next-line
-    this.state.socket.onclose = () => {
-      const unsubscribe = {
-        "type": "unsubscribe",
-        "product_ids": this.getProductIds(),
-        "channels": [ "ticker" ]
-      }
-      this.state.socket.send(JSON.stringify(unsubscribe))
+    // this.state.socket.onclose = () => {
+      // const unsubscribe = {
+      //   "type": "unsubscribe",
+      //   "product_ids": this.getProductIds(),
+      //   "channels": [ "ticker" ]
+      // }
+      // this.state.socket.send(JSON.stringify(unsubscribe))
       this.state.socket.close()
-    }
-    this.setState({socket: null})
+    // }
+    // this.setState({socket: null})
   }
 
 }
