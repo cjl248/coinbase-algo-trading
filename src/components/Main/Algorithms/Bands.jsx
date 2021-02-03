@@ -41,21 +41,21 @@ export default class Bands extends React.Component {
             className='current-granularity'>
             {`Granularity: ${(this.props.granularity*300/60/60/24)} D`}
           </div>
-          <Button
+          <Button style={{height: '30px'}}
             color='primary'
-            variant='outlined'
+            variant='contained'
             onClick={()=>{this.handleGranularityChange(3600)}}>
             {`12.5 Days`}
           </Button>
-          <Button
+          <Button style={{height: '30px'}}
             color='primary'
-            variant='outlined'
+            variant='contained'
             onClick={() => {this.handleGranularityChange(21600)}}>
             {`75 Days`}
           </Button>
-          <Button
+          <Button style={{height: '30px'}}
             color='primary'
-            variant='outlined'
+            variant='contained'
             onClick={() => {this.handleGranularityChange(86400)}}>
             {`300 Days`}
           </Button>

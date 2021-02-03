@@ -20,7 +20,7 @@ export default function MainNavBar({activePage, activateModal}) {
           color='primary'
           variant='contained'
           onClick={handleOrder}>
-          {`LIMIT / MARKET ORDER`}
+          {`BUY / SELL`}
         </Button>
       </div>
     </div>
