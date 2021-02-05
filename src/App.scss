@@ -199,8 +199,9 @@ $border-color: #ECEFF1;
       margin-bottom: 5px;
       padding-bottom: 5px;
 
-      div {
-        width: 100px;
+      * {
+        width: 97.5px;
+        height: 25px;
         margin: 2.5px 2.5px 2.5px 2.5px;
       }
     }
@@ -429,7 +430,7 @@ $border-color: #ECEFF1;
       font-size: 20px;
 
       .p-price {
-        width: 40%;
+        width: 50%;
         display: flex;
         flex-direction: row;
         font-weight: bold;
@@ -437,12 +438,12 @@ $border-color: #ECEFF1;
         border-bottom: .5px solid $border-color;
 
         .p-currency {
-          width: 30%;
+          width: 25%;
           color: $coinbase-blue;
         }
 
         .p-value {
-
+          width: 30%;
         }
       }
     }
@@ -468,7 +469,7 @@ $border-color: #ECEFF1;
     }
 
     .usd-group {
-      width: 40%;
+      width: 50%;
       display: flex;
       flex-direction: row;
       font-weight: bold;
@@ -477,17 +478,12 @@ $border-color: #ECEFF1;
       font-size: 20px;
 
       .usd-label {
-        width: 30%;
+        width: 25%;
         color: $coinbase-blue;
       }
 
       .usd-value {
-        // width: 50%;
-        // display: flex;
-        // flex-direction: row;
-        // font-weight: bold;
-        // margin: 5px 0 5px 0;
-        // border-bottom: 1px solid $border-color;
+        width: 30%;
       }
     }
   }

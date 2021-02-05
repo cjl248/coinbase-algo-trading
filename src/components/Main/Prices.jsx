@@ -1,8 +1,8 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 
-const websocketAPI = "wss://ws-feed.pro.coinbase.com"
-const productListAPI = "http://localhost:3000/c_products/list"
+const productListAPI = 'http://localhost:3000/c_products/list'
+const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 
 export default class Prices extends React.Component {
 
@@ -89,14 +89,10 @@ export default class Prices extends React.Component {
       }
       let sorted = []
       if (sortBy === 'DESC') {
-        sorted = priceArray.sort((a, b) => {
-          return b.price - a.price
-        })
+        sorted = priceArray.sort((a, b) => b.price - a.price)
       }
       if (sortBy === 'ASC') {
-        sorted = priceArray.sort((a, b) => {
-          return a.price - b.price
-        })
+        sorted = priceArray.sort((a, b) => a.price - b.price)
       }
       this.setState({
         sortedPrices: sorted

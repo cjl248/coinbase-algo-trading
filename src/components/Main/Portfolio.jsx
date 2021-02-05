@@ -1,14 +1,16 @@
 import React from 'react'
 
-const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
+// const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
+const websocketAPI = 'wss://ws-feed-public.sandbox.pro.coinbase.com'
 
 export default class Portfolio extends React.Component {
 
   state = {
     socket: new WebSocket(websocketAPI),
-    prices: [],
-    dollar: 0,
-    dollarCoin: 0,
+    prices: {},
+    dollarValue: 0,
+    dollarCoinValue: 0,
+    totalValue: 0,
   }
 
   precise = (float, precision) => Number.parseFloat(float).toPrecision(precision)
@@ -24,17 +26,59 @@ export default class Portfolio extends React.Component {
   setDollarAccounts = () => {
     return this.props.activeAccounts.map(account => {
       if (account.currency === 'USD') {
-        return this.setState({dollar: account.balance})
+        return this.setState({dollarValue: account.balance})
       }
       if (account.currency === 'USDC') {
-        return this.setState({dollarCoin: account.balance})
+        return this.setState({dollarCoinValue: account.balance})
       }
       else return null
     })
   }
 
+  renderInvested = () => {
+    return this.props.activeAccounts.map((account, index) => {
+      for (let key in this.state.prices) {
+        if (key.slice(0, 3) === account.currency || key.slice(0, 4) === account.currency) {
+          const percentage = this.getPortfolioPercentage(account.balance*this.state.prices[key])
+          return (
+            <div className='p-price' key={index}>
+              <div className='p-currency'>
+                {`${account.currency}: `}
+              </div>
+              <div className='p-value'>
+                {`$${this.precise(account.balance*this.state.prices[key], 5)}`}
+              </div>
+              <div className='p-percentage'>
+                {`${percentage}%`}
+              </div>
+            </div>
+          )
+        }
+      }
+      return null
+    })
+  }
+
+  getTotalValue = () => {
+    const { activeAccounts } = this.props
+    const totalValue = activeAccounts.reduce((sum, current) => {
+      if (current.currency === 'BTC') {
+        const btcPrice = this.state.prices[`${current.currency}-USD`]
+        return sum += Number.parseFloat(sum) + Number.parseFloat(current.balance) * Number.parseFloat(btcPrice)
+      } else {
+        return sum = Number.parseFloat(sum) + Number.parseFloat(current.balance)
+      }
+    }, 0)
+    this.setState({ totalValue })
+  }
+
+  getPortfolioPercentage = (product) => {
+    return this.precise(Number.parseFloat(product) / Number.parseFloat(this.state.totalValue) * 100, 4)
+  }
+
   componentDidMount() {
     this.setDollarAccounts()
+
 
     const { socket } = this.state
     socket.onopen = () => {
@@ -57,9 +101,10 @@ export default class Portfolio extends React.Component {
         if (response.type === 'ticker'){
           return this.getProductIds().map(id => {
             if (response.product_id === id) {
-              return this.setState({
+              this.setState({
                 prices: {...this.state.prices, [id]: response.price}
               })
+              return this.getTotalValue()
             } else return null
           })
         } else return null
@@ -79,47 +124,12 @@ export default class Portfolio extends React.Component {
     }
 
     socket.onclose = () => {
-
+      return null
     }
 
   }
 
-  componentWillUnmount() {
-    const { socket } = this.state
-      // const unsubscribe = {
-      //   "type": "unsubscribe",
-      //   "product_ids": this.getProductIds(),
-      //   "channels": [ "ticker" ]
-      // }
-      // socket.send(JSON.stringify(unsubscribe))
-      socket.close()
-  }
-
-  renderInvested = () => {
-    return this.props.activeAccounts.map((account, index) => {
-      for (let key in this.state.prices) {
-        if (key.slice(0, 3) === account.currency || key.slice(0, 4) === account.currency) {
-          return (
-            <div className='p-price' key={index}>
-              <div
-                className='p-currency'>
-                {`${account.currency}: `}
-              </div>
-              <div
-                className='p-value'>
-                {`$${this.precise(account.balance*this.state.prices[key], 5)}`}
-              </div>
-            </div>
-          )
-        }
-      }
-      return null
-    })
-  }
-
   render() {
-    // console.log(this.props.activeAccounts);
-    // console.log(this.state.prices);
     return (
       <div className='portfolio-container'>
         <div
@@ -134,14 +144,34 @@ export default class Portfolio extends React.Component {
           <div className='p-assets-title'>{`Available`}</div>
           <div className='usd-group'>
             <span className='usd-label'>{`USD: `}</span>
-            <span className='usd-value'>{`$${this.precise(this.state.dollar, 5)}`}</span>
+            <span className='usd-value'>{`$${this.precise(this.state.dollarValue, 5)}`}</span>
+            <span
+              className='percentage'>
+              {`${this.getPortfolioPercentage(this.state.dollarValue)}%`}
+            </span>
           </div>
           <div className='usd-group'>
             <span className='usd-label'>{`USDC: `}</span>
-            <span className='usd-value'>{`$${this.precise(this.state.dollarCoin, 2)}`}</span>
+            <span className='usd-value'>{`$${this.precise(this.state.dollarCoinValue, 2)}`}</span>
+            <span
+              className='percentage'>
+              {`${this.getPortfolioPercentage(this.state.dollarCoinValue)}%`}
+            </span>
           </div>
         </div>
       </div>
     )
   }
+
+  componentWillUnmount() {
+    const { socket } = this.state
+      // const unsubscribe = {
+      //   "type": "unsubscribe",
+      //   "product_ids": this.getProductIds(),
+      //   "channels": [ "ticker" ]
+      // }
+      // socket.send(JSON.stringify(unsubscribe))
+      socket.close()
+  }
+
 }

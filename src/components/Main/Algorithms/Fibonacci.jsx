@@ -88,7 +88,7 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
   /**
   * Fibonacci retracement levels are 23.6%, 38.2%, 61.8%, and 78.6%.
   * Calculates the retracement up after a fall from max and a
-  * retracement down adter a rise up
+  * retracement down after a rise up
   */
   const renderCombinedStats = () => {
     if (fibonacci && fibonacci.historical_stats && fibonacci.day_stats) {
