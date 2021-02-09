@@ -116,7 +116,7 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
           setSize(0)
           setPrice(0)
         } else {
-          setMessage(`${data.side.toUpperCase()} order st $${price} for ${data.size} of ${data.product_id} placed successfully`)
+          setMessage(`${data.side.toUpperCase()} order at $${price} for ${data.size} of ${data.product_id} placed successfully`)
           setSize(0)
           setPrice(0)
         }

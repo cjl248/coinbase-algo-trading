@@ -6,6 +6,7 @@ const oAPI = 'http://localhost:3000/c_orders'
 export default function Orders() {
 
   const [orders, setOrders] = React.useState([])
+  const [requestedOrders, setRequestedOrders] = React.useState(false)
   const [controller] = React.useState(new AbortController())
 
   const precise = (float, precision) => Number.parseFloat(float).toPrecision(precision)
@@ -21,24 +22,33 @@ export default function Orders() {
     }
     if (orders.length === 0) {
       try {
-        const response = await fetch(oAPI, config)
-        response.json().then(data => {
-          setOrders(data)
-        })
+        if (requestedOrders) {
+          return null
+        } else {
+          const response = await fetch(oAPI, config)
+          response.json().then(data => {
+            setRequestedOrders(true)
+            return setOrders(data)
+          })
+        }
       } catch(e) {
         if (e.name === "AbortError") {
           console.warn("Orders fetch aborted!")
         } else {
-          throw e
+          console.log(`Error: ${e}`);
         }
       }
     }
   }
 
   const renderOrders = () => {
-    if (orders.length === 0 ) {
-      return (<Loading />)
-    } else {
+    if (orders.length === 0) {
+      if (requestedOrders) {
+        return (<h3>{`You have no orders...`}</h3>)
+      } else {
+        return (<Loading />)
+      }
+    } else if (orders.length > 0) {
       return orders.map(order => {
         return (
           <div key={order.id} className='order'>

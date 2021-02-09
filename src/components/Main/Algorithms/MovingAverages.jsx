@@ -6,9 +6,9 @@ export default function MovingAverages() {
       <div className='moving-averages-header'>
         <div className='moving-averages-title'>{`Moving Averages`}</div>
       </div>
-      <div className='moving-averages-main'>
-        {`Moving Averages Stuffs  `}
-      </div>
+      <h3 className='moving-averages-main'>
+        {`Coming soon...`}
+      </h3>
     </div>
   )
 }
