@@ -218,7 +218,7 @@ $border-color: #ECEFF1;
         border-bottom: .5px solid $border-color;
 
         div {
-          width: 100px;
+          width: 97.5px;
           margin: 2.5px 2.5px 2.5px 2.5px;
         }
       }
@@ -443,7 +443,7 @@ $border-color: #ECEFF1;
         }
 
         .p-value {
-          width: 30%;
+          width: 40%;
         }
       }
     }
@@ -483,7 +483,7 @@ $border-color: #ECEFF1;
       }
 
       .usd-value {
-        width: 30%;
+        width: 40%;
       }
     }
   }
@@ -806,7 +806,7 @@ $border-color: #ECEFF1;
     .moving-averages-main {
       display: flex;
       flex-direction: column;
-      height: 600px;
+      height: 200px;
       width: 80%;
       background-color: white;
       margin: 20px 20px 20px 20px;
