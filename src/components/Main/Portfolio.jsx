@@ -1,7 +1,6 @@
 import React from 'react'
 
-// const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
-const websocketAPI = 'wss://ws-feed-public.sandbox.pro.coinbase.com'
+const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 
 export default class Portfolio extends React.Component {
 
@@ -62,18 +61,29 @@ export default class Portfolio extends React.Component {
   getTotalValue = () => {
     const { activeAccounts } = this.props
     const totalValue = activeAccounts.reduce((sum, current) => {
-      if (current.currency === 'BTC') {
-        const btcPrice = this.state.prices[`${current.currency}-USD`]
-        return sum += Number.parseFloat(sum) + Number.parseFloat(current.balance) * Number.parseFloat(btcPrice)
+      if (current.currency === 'USD' || current.currency === 'USDC') {
+        return sum += Number.parseFloat(current.balance)
       } else {
-        return sum = Number.parseFloat(sum) + Number.parseFloat(current.balance)
+        const currentPrice = this.state.prices[`${current.currency}-USD`]
+        const currentBalance = current.balance
+        const currentValue = Number.parseFloat(currentPrice) * Number.parseFloat(currentBalance)
+        return sum += currentValue
       }
     }, 0)
     this.setState({ totalValue })
   }
 
   getPortfolioPercentage = (product) => {
-    return this.precise(Number.parseFloat(product) / Number.parseFloat(this.state.totalValue) * 100, 4)
+    if (this.state.totalValue === 0 && product === 0 ) {
+      return 0
+    } else if (this.state.totalvalue === product) {
+      return 100
+    } else if (this.state.totalValue === 0 && product > 0){
+      return 100
+    } else {
+      return this.precise(Number.parseFloat(product) / Number.parseFloat(this.state.totalValue) * 100, 4)
+
+    }
   }
 
   componentDidMount() {
