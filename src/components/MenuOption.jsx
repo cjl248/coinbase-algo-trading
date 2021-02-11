@@ -18,7 +18,7 @@ export default function MenuOption({title, icon, activePage, setActivePage}) {
   }
 
   const handleClick = () => {
-    setActivePage(title)
+    setActivePage(title, 'h')
   }
 
 
