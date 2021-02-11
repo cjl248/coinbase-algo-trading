@@ -16,7 +16,6 @@ export default function Fibonacci({ fibonacci, activeAccounts, activeFibonacciCu
     return parseFloat(n1)+parseFloat(n2)
   }
 
-
   // const getProductIds = () => {
   //   return activeAccounts.map(account => {
   //     return `${account.currency}-USD`
