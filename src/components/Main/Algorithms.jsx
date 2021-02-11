@@ -9,8 +9,15 @@ const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 
 export default class Algorithms extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.bollRef = React.createRef()
+    this.fibRef = React.createRef()
+    this.avgRef = React.createRef()
+  }
+
   state = {
-    socket: null,
+    socket: new WebSocket(websocketAPI),
     prices: {},
     bands: {},
     granularity: 3600,
@@ -73,18 +80,39 @@ export default class Algorithms extends React.Component {
     })
   }
 
+  scrollPage = () => {
+    const { activeSection } = this.props
+    if (activeSection === 'b') {
+      this.bollRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+    if (activeSection === 'f') {
+      this.fibRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
+    }
+    if (activeSection === 'm') {
+      this.avgRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end'
+      })
+    }
+  }
 
   render() {
     return (
       <div className='algorithms-container'>
-        <div className='bollinger-bands'>
+        <div className='bollinger-bands' ref={this.bollRef}>
           <Bands
             bands={this.state.bands}
             granularity={this.state.granularity}
             setGranularity={this.setGranularity}>
           </Bands>
         </div>
-        <div className='fibonacci-retracement'>
+        <div className='fibonacci-retracement' ref={this.fibRef}>
           <Fibonacci
             fibonacci={this.state.fibonacciRetracement}
             activeAccounts={this.props.activeAccounts}
@@ -92,7 +120,7 @@ export default class Algorithms extends React.Component {
             setActiveFibonacciCurrency={this.setActiveFibonacciCurrency}>
           </Fibonacci>
         </div>
-        <div className='moving-averages'>
+        <div className='moving-averages' ref={this.avgRef}>
           <MovingAverages></MovingAverages>
         </div>
       </div>
@@ -120,6 +148,8 @@ export default class Algorithms extends React.Component {
   }
 
   componentDidMount() {
+    this.scrollPage()
+
     const {granularity, activeFibonacciCurrency} = this.state
     this.getAllBands()
     this.getFibonacciRetracement(activeFibonacciCurrency, granularity)
@@ -165,24 +195,11 @@ export default class Algorithms extends React.Component {
       this.state.socket.onerror = (error) => {
         console.log("There was an error: ", error.json());
       }
-
-
-
     })
   }
 
   componentWillUnmount() {
-    // eslint-disable-next-line
-    // this.state.socket.onclose = () => {
-      // const unsubscribe = {
-      //   "type": "unsubscribe",
-      //   "product_ids": this.getProductIds(),
-      //   "channels": [ "ticker" ]
-      // }
-      // this.state.socket.send(JSON.stringify(unsubscribe))
-      this.state.socket.close()
-    // }
-    // this.setState({socket: null})
+    this.state.socket.close()
   }
 
 }
