@@ -10,7 +10,7 @@ import Modal from './Modal.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
 
-export default function MainContainer({activePage}) {
+export default function MainContainer({ setActivePage, activePage, activeSection }) {
 
   const [modal, setModal] = React.useState(false)
   const [activeAccounts, setActiveAccounts] = React.useState([])
@@ -36,13 +36,14 @@ export default function MainContainer({activePage}) {
   const renderActivePage = () => {
     switch(activePage) {
       case 'home':
-        return (<Home activeAccounts={activeAccounts}></Home>)
+        return (<Home setActivePage={setActivePage} activeAccounts={activeAccounts}></Home>)
       case 'portfolio':
         return (<Portfolio activeAccounts ={activeAccounts}></Portfolio>)
       case 'prices':
         return (<Prices activeAccounts={activeAccounts}></Prices>)
       case 'algorithms':
-        return (<Algorithms activeAccounts={activeAccounts}></Algorithms>)
+        return (<Algorithms activeAccounts={activeAccounts} activeSection={activeSection}></Algorithms>)
+        break
       default:
         return (<Home></Home>)
     }

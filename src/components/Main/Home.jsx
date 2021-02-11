@@ -89,7 +89,8 @@ export default class Home extends React.Component {
           dollarBalance={this.state.dollarBalance}
           dollarcoinBalance={this.state.dollarcoinBalance}>
         </Assets>
-        <Signals>
+        <Signals
+          setActivePage={this.props.setActivePage}>
         </Signals>
         <div className='col2-row2'></div>
       </div>

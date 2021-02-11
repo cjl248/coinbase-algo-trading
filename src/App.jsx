@@ -7,12 +7,14 @@ import MainContainer from './components/MainContainer.jsx'
 class App extends React.Component {
 
   state = {
-    activePage: 'home'
+    activePage: 'home',
+    activeSection: 'h',
   }
 
-  setActivePage = (page) => {
+  setActivePage = (page, section='h') => {
     this.setState({
-      activePage: page
+      activePage: page,
+      activeSection: section
     })
   }
 
@@ -24,7 +26,9 @@ class App extends React.Component {
           setActivePage={this.setActivePage}>
         </SideMenuContainer>
         <MainContainer
-          activePage={this.state.activePage}>
+          activePage={this.state.activePage}
+          activeSection={this.state.activeSection}
+          setActivePage={this.setActivePage}>
         </MainContainer>
       </div>
     );

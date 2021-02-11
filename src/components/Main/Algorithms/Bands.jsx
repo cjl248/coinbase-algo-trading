@@ -68,6 +68,9 @@ export default class Bands extends React.Component {
     )
   }
 
+  componentDidMount() {
+  }
+
   componentDidUpdate() {
   }
 
