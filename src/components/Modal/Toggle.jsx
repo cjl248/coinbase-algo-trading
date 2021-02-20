@@ -9,11 +9,15 @@ export default function Toggle({
   toggleBuy=null,
   marketOrder=null,
   toggleMarketOrder=null,
+  setMessage,
 }) {
 
   const handleToggle = () => {
     if (type === 'action') toggleBuy(!buy)
-    if (type === 'order') toggleMarketOrder(!marketOrder)
+    if (type === 'order') {
+      setMessage('')
+      toggleMarketOrder(!marketOrder)
+    }
   }
 
   const resolveFalseLabel = () => {

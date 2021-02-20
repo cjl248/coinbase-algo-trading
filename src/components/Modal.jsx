@@ -82,6 +82,7 @@ export default function Modal({ modal, activeAccounts }) {
           type='order'
           marketOrder={marketOrder}
           toggleMarketOrder={toggleMarketOrder}
+          setMessage={setMessage}
         />
       </div>
         <div className='order-container'>

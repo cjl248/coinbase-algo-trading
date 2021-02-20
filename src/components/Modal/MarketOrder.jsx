@@ -1,10 +1,11 @@
 import React from 'react'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 /*
 * Arguments for market order:
@@ -13,10 +14,13 @@ import Button from '@material-ui/core/Button'
 
 const oAPI = "http://localhost:3000/c_orders/market_order"
 
-export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage }) {
+export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage}) {
 
   const [productId, setProductId] = React.useState('')
   const [funds, setFunds] = React.useState(1)
+
+  const [intendToOrder, setIntendToOrder] = React.useState(false)
+  const [pin, setPin] = React.useState('')
 
   const resolveSide = () => {
     if (!action) {
@@ -75,6 +79,7 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
   }
 
   const handleOrder = () => {
+    console.log(pin)
     if (productId === '') {
       setMessage('Please choose a product from the dropdown')
       return null
@@ -88,7 +93,8 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
         body: JSON.stringify({
           side: resolveSide(),
           productId,
-          funds
+          funds,
+          pin
         })
       }
       fetch(oAPI, config)
@@ -97,10 +103,12 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
         if (data && data.message) {
           setMessage(data.message)
           setFunds('')
+          setPin('')
           console.log(data);
         } else if (data) {
           setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
           setFunds('')
+          setPin('')
         } else {
           setMessage('Something went wrong')
         }
@@ -109,11 +117,46 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
 
   }
 
+  const handleIntendToOrder = () => {
+    setIntendToOrder(true)
+  }
+
+  const handlePinInput = (e) => {
+    setMessage('')
+    setPin(e.target.value)
+  }
+
+  const renderPinInput = () => {
+    if (intendToOrder) {
+      return (
+        <>
+          <div className='pin-label'>{`Please enter the pin`}</div>
+          <Input
+            value={pin}
+            type='password'
+            onChange={handlePinInput}
+            style={{width: '100px'}}
+          />
+          <Button
+            color='secondary'
+            variant='contained'
+            onClick={handleOrder}>
+            {`PLACE ORDER`}
+          </Button>
+        </>
+      )
+    } else {
+      return null
+    }
+  }
+
   React.useEffect(() => {
     return function cleanup() {
       if (modal === false) {
         setMessage('')
         setFunds(1)
+        setIntendToOrder(false)
+        setPin('')
       }
     }
   })
@@ -145,9 +188,12 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
           style={{marginTop: '10px'}}
           variant='contained'
           color='primary'
-          onClick={handleOrder}>
-          {`Place Order`}
+          onClick={handleIntendToOrder}>
+          {`ENTER PIN`}
         </Button>
+      </div>
+      <div className='pin-container'>
+        {renderPinInput()}
       </div>
     </div>
   )
