@@ -43,9 +43,8 @@ export default function MainContainer({ setActivePage, activePage, activeSection
         return (<Prices activeAccounts={activeAccounts}></Prices>)
       case 'algorithms':
         return (<Algorithms activeAccounts={activeAccounts} activeSection={activeSection}></Algorithms>)
-        break
       default:
-        return (<Home></Home>)
+        return (<Home setActivePage={setActivePage} activeAccounts={activeAccounts}></Home>)
     }
   }
 

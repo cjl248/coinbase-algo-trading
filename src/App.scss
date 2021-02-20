@@ -9,7 +9,7 @@ $border-color: #ECEFF1;
   // border: 2px $coinbase-blue solid;
   height: 98vh;
   width: 99vw;
-  max-width: 1400px;
+  max-width: 1600px;
   color: black;
 }
 
@@ -914,6 +914,20 @@ $border-color: #ECEFF1;
       }
     }
 
+    .pin-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+
+      .pin-label{
+        font-weight: bold;
+      }
+
+      > * {
+        margin: 2.5px 0;
+      }
+    }
 
     .limit-order {
 
