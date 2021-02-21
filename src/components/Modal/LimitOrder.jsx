@@ -1,6 +1,7 @@
 import React from 'react'
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -18,6 +19,10 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
   const [productId, setProductId] = React.useState('')
   const [size, setSize] = React.useState(1)
   const [price, setPrice] = React.useState(1)
+
+  const [intendToOrder, setIntendToOrder] = React.useState(false)
+  const [pin, setPin] = React.useState('')
+
 
   const resolveSide = () => {
     if (!action) {
@@ -105,7 +110,8 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
           side: resolveSide(),
           productId,
           size,
-          price
+          price,
+          pin
         })
       }
       fetch(oAPI, config)
@@ -115,6 +121,7 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
           setMessage(data.message)
           setSize(0)
           setPrice(0)
+          setPin('')
         } else {
           setMessage(`${data.side.toUpperCase()} order at $${price} for ${data.size} of ${data.product_id} placed successfully`)
           setSize(0)
@@ -122,6 +129,36 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
         }
       })
     }
+  }
+
+  const handleIntendToOrder = () => {
+    setIntendToOrder(true)
+  }
+
+  const handlePinInput = (e) => {
+    setMessage('')
+    setPin(e.target.value)
+  }
+
+  const renderPinInput = () => {
+    if (intendToOrder) {
+      return (
+        <>
+          <div className='pin-label'>{`Please enter the pin`}</div>
+          <Input style={{width: '100px', height: '20px'}}
+            value={pin}
+            type='password'
+            onChange={handlePinInput}
+          />
+        <Button style={{width: '100%'}}
+            color='secondary'
+            variant='contained'
+            onClick={handleOrder}>
+            {`PLACE ORDER`}
+          </Button>
+        </>
+      )
+    } else return null
   }
 
   React.useEffect(() => {
@@ -170,9 +207,12 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
           style={{marginTop: '10px'}}
           variant='contained'
           color='primary'
-          onClick={handleOrder}>
-          {`Place Order`}
+          onClick={handleIntendToOrder}>
+          {`Enter Pin`}
         </Button>
+      </div>
+      <div className='pin-container'>
+        {renderPinInput()}
       </div>
     </div>
   )
