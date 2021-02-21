@@ -131,13 +131,12 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
       return (
         <>
           <div className='pin-label'>{`Please enter the pin`}</div>
-          <Input
+          <Input style={{width: '100px', height: '20px'}}
             value={pin}
             type='password'
             onChange={handlePinInput}
-            style={{width: '100px'}}
           />
-          <Button
+        <Button style={{width: '100%'}}
             color='secondary'
             variant='contained'
             onClick={handleOrder}>
