@@ -109,6 +109,7 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
           setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
           setFunds('')
           setPin('')
+          setIntendToOrder(false)
         } else {
           setMessage('Something went wrong')
         }
