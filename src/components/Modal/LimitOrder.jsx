@@ -99,6 +99,7 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
   const handleOrder = () => {
     if (productId === '') {
       setMessage('Please choose a product from the dropdown')
+      setPin('')
     } else {
       const config = {
         method: 'POST',
@@ -119,8 +120,6 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
       .then(data => {
         if (data && data.message) {
           setMessage(data.message)
-          setSize(0)
-          setPrice(0)
           setPin('')
         } else {
           setMessage(`${data.side.toUpperCase()} order at $${price} for ${data.size} of ${data.product_id} placed successfully`)

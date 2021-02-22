@@ -79,9 +79,9 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
   }
 
   const handleOrder = () => {
-    console.log(pin)
     if (productId === '') {
       setMessage('Please choose a product from the dropdown')
+      setPin('')
       return null
     } else {
       const config = {
@@ -102,9 +102,7 @@ export default function MarketOrder({ modal, market, action, activeAccounts, all
       .then(data => {
         if (data && data.message) {
           setMessage(data.message)
-          setFunds('')
           setPin('')
-          console.log(data);
         } else if (data) {
           setMessage(`${data.side.toUpperCase()} order for $${data.funds} of ${data.product_id} placed successfully`)
           setFunds('')
