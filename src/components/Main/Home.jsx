@@ -14,7 +14,6 @@ export default class Home extends React.Component {
   state = {
     accounts: [],
     prices: [],
-    orders: {},
     dollarBalance: 0,
     dollarcoinBalance: 0,
     controller: new AbortController()
@@ -92,7 +91,9 @@ export default class Home extends React.Component {
         <Signals
           setActivePage={this.props.setActivePage}>
         </Signals>
+        {/*
         <div className='col2-row2'></div>
+        */}
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 import Loading from '../../Loading.jsx'
+import Button from '@material-ui/core/Button'
 
 const oAPI = 'http://localhost:3000/c_orders'
 
@@ -41,6 +42,24 @@ export default function Orders() {
     }
   }
 
+  const handleOrderDelete = async (orderId) => {
+    const config = {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accepts': 'application/json'
+      }
+    }
+    const response =  await fetch(`${oAPI}/${orderId}`, config)
+    response.json().then(() => {
+      const filteredOrders = orders.filter(order => {
+        return order.id !== orderId
+      })
+      setOrders(filteredOrders)
+    })
+
+  }
+
   const renderOrders = () => {
     if (orders.length === 0) {
       if (requestedOrders) {
@@ -57,6 +76,12 @@ export default function Orders() {
             <div>{order.side.toUpperCase()}</div>
             <div>{precise(order.price, 6)}</div>
             <div>{precise(order.size, 4)}</div>
+            <Button style={{width: '5%', height: '25px'}}
+              color='secondary'
+              variant='contained'
+              onClick={()=> {handleOrderDelete(order.id)}}>
+              {`X`}
+            </Button>
           </div>
         )
       })
@@ -83,6 +108,7 @@ export default function Orders() {
         <div>{`Side`}</div>
         <div>{`Price`}</div>
         <div>{`Size`}</div>
+        <div>{`Cancel`}</div>
       </div>
       <div className='orders'>{renderOrders()}</div>
     </div>
