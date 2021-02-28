@@ -9,11 +9,13 @@ import Algorithms from './Main/Algorithms.jsx'
 import Modal from './Modal.jsx'
 
 const aAPI = 'http://localhost:3000/c_accounts'
+const oAPI = 'http://localhost:3000/c_orders'
 
 export default function MainContainer({ setActivePage, activePage, activeSection }) {
 
   const [modal, setModal] = React.useState(false)
   const [activeAccounts, setActiveAccounts] = React.useState([])
+  const [orders2, setOrders2] = React.useState([])
 
   React.useEffect(() => {
     const config = {
@@ -26,25 +28,54 @@ export default function MainContainer({ setActivePage, activePage, activeSection
       .then(r => r.json())
       .then(accounts => {
         if (!accounts) return
-        const aAccounts = accounts.filter((account) => {
+        const activeAccounts = accounts.filter((account) => {
           return account.balance > 0
         })
-        setActiveAccounts(aAccounts)
+        setActiveAccounts(activeAccounts)
       })
-    },[setActiveAccounts])
+      fetch(oAPI, config)
+        .then(r => r.json())
+        .then(orders => {
+          if (!orders) return
+          setOrders2(orders)
+        })
+    },[setActiveAccounts, setOrders2])
 
   const renderActivePage = () => {
     switch(activePage) {
       case 'home':
-        return (<Home setActivePage={setActivePage} activeAccounts={activeAccounts}></Home>)
+        return (
+          <Home
+            setActivePage={setActivePage}
+            activeAccounts={activeAccounts}>
+          </Home>
+        )
       case 'portfolio':
-        return (<Portfolio activeAccounts ={activeAccounts}></Portfolio>)
+        return (
+          <Portfolio
+            activeAccounts ={activeAccounts}>
+          </Portfolio>
+        )
       case 'prices':
-        return (<Prices activeAccounts={activeAccounts}></Prices>)
+        return (
+          <Prices
+            activeAccounts={activeAccounts}>
+          </Prices>
+        )
       case 'algorithms':
-        return (<Algorithms activeAccounts={activeAccounts} activeSection={activeSection}></Algorithms>)
+        return (
+          <Algorithms
+            activeAccounts={activeAccounts}
+            activeSection={activeSection}>
+          </Algorithms>
+        )
       default:
-        return (<Home setActivePage={setActivePage} activeAccounts={activeAccounts}></Home>)
+        return (
+          <Home
+            setActivePage={setActivePage}
+            activeAccounts={activeAccounts}>
+          </Home>
+        )
     }
   }
 
