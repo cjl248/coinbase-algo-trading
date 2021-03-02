@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button'
 
 const oAPI = "http://localhost:3000/c_orders/limit_order"
 
-export default function LimitOrder({ modal, buy, action, activeAccounts, allAccounts, setMessage }) {
+export default function LimitOrder({ modal, buy, action, activeAccounts, allAccounts, setMessage, orders, setOrders }) {
 
   const [productId, setProductId] = React.useState('')
   const [size, setSize] = React.useState(1)
@@ -123,6 +123,14 @@ export default function LimitOrder({ modal, buy, action, activeAccounts, allAcco
           setPin('')
         } else {
           setMessage(`${data.side.toUpperCase()} order at $${price} for ${data.size} of ${data.product_id} placed successfully`)
+          const newOrder = {
+            product_id: productId,
+            type: 'LIMIT',
+            side: resolveSide().toUpperCase(),
+            price,
+            size,
+          }
+          setOrders([...orders, newOrder])
           setSize(0)
           setPrice(0)
           setPin('')

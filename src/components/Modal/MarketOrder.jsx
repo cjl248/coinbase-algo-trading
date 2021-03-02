@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 
 const oAPI = "http://localhost:3000/c_orders/market_order"
 
-export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage}) {
+export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage, orders, setOrders}) {
 
   const [productId, setProductId] = React.useState('')
   const [funds, setFunds] = React.useState(1)

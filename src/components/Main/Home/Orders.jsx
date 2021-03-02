@@ -4,9 +4,8 @@ import Button from '@material-ui/core/Button'
 
 const oAPI = 'http://localhost:3000/c_orders'
 
-export default function Orders() {
+export default function Orders({ orders, setOrders }) {
 
-  const [orders, setOrders] = React.useState([])
   const [requestedOrders, setRequestedOrders] = React.useState(false)
   const [controller] = React.useState(new AbortController())
 
