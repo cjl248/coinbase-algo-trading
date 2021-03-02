@@ -80,7 +80,9 @@ export default class Home extends React.Component {
     return (
       <div className='home-container'>
         <Orders
-          accounts={this.state.accounts}>
+          accounts={this.state.accounts}
+          orders={this.props.orders}
+          setOrders={this.props.setOrders}>
         </Orders>
         <Assets
           accounts={this.state.accounts}

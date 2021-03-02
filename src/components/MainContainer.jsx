@@ -15,7 +15,7 @@ export default function MainContainer({ setActivePage, activePage, activeSection
 
   const [modal, setModal] = React.useState(false)
   const [activeAccounts, setActiveAccounts] = React.useState([])
-  const [orders2, setOrders2] = React.useState([])
+  const [orders, setOrders] = React.useState([])
 
   React.useEffect(() => {
     const config = {
@@ -37,9 +37,9 @@ export default function MainContainer({ setActivePage, activePage, activeSection
         .then(r => r.json())
         .then(orders => {
           if (!orders) return
-          setOrders2(orders)
+          setOrders(orders)
         })
-    },[setActiveAccounts, setOrders2])
+    },[setActiveAccounts, setOrders])
 
   const renderActivePage = () => {
     switch(activePage) {
@@ -47,7 +47,9 @@ export default function MainContainer({ setActivePage, activePage, activeSection
         return (
           <Home
             setActivePage={setActivePage}
-            activeAccounts={activeAccounts}>
+            activeAccounts={activeAccounts}
+            orders={orders}
+            setOrders={setOrders}>
           </Home>
         )
       case 'portfolio':
@@ -73,7 +75,8 @@ export default function MainContainer({ setActivePage, activePage, activeSection
         return (
           <Home
             setActivePage={setActivePage}
-            activeAccounts={activeAccounts}>
+            activeAccounts={activeAccounts}
+            orders={orders}>
           </Home>
         )
     }
@@ -101,7 +104,12 @@ export default function MainContainer({ setActivePage, activePage, activeSection
       </div>
     </div>
     <div className={modalClass()}>
-      <Modal modal={modal} activeAccounts={activeAccounts}></Modal>
+      <Modal
+        modal={modal}
+        activeAccounts={activeAccounts}
+        orders={orders}
+        setOrders={setOrders}>
+      </Modal>
     </div>
     </>
   )
