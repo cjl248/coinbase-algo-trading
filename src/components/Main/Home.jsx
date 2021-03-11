@@ -52,6 +52,8 @@ export default class Home extends React.Component {
                 this.setState({
                   prices: [...this.state.prices, {[currency]: {'currency': currency, ...price}}],
                 })
+              }).catch(error => {
+                console.warn(`Error: ${error}`)
               })
             } else if (account.balance > 0 && account.currency === 'USDC') {
               this.setState({
