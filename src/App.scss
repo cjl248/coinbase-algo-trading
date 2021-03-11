@@ -192,7 +192,8 @@ $border-color: #ECEFF1;
     .orders-headers {
       display: flex;
       flex-direction: row;
-      width: 100%;
+      width: 75%;
+      min-width: 550px;
       font-size: 22px;
       font-weight: bold;
       color: $coinbase-blue;
@@ -210,7 +211,8 @@ $border-color: #ECEFF1;
     .orders {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      width: 75%;
+      min-width: 550px;
       font-size: 18px;
 
       .order {

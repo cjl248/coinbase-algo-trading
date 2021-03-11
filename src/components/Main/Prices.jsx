@@ -196,6 +196,8 @@ export default class Prices extends React.Component {
           console.log("There was an error: ", error);
         }
       })
+    }).catch(e => {
+      console.warn(`Error: ${e}`)
     })
   }
 
