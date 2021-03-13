@@ -18,6 +18,7 @@ export default class Algorithms extends React.Component {
 
   state = {
     socket: new WebSocket(websocketAPI),
+    controller: new AbortController(),
     prices: {},
     bands: {},
     granularity: 3600,
@@ -41,10 +42,12 @@ export default class Algorithms extends React.Component {
 
   getFibonacciRetracement = (productId, granularity) => {
     const config = {
+      method: 'GET',
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json"
-      }
+      },
+      signal: this.state.controller.signal
     }
     const requestPath = `${pAPI}/get_fibonacci_retracement?product=${productId}&granularity=${granularity}`
     fetch(requestPath, config)
@@ -53,15 +56,19 @@ export default class Algorithms extends React.Component {
       this.setState({
         fibonacciRetracement
       })
+    }).catch(e => {
+      console.warn(`There was an error: ${e}`)
     })
   }
 
   getBands = (productId, granularity) => {
     const config = {
+      method: 'GET',
       headers: {
         "Content-Type": "application/json",
         "Accepts": "application/json"
-      }
+      },
+      signal: this.state.controller.signal
     }
     const requestPath = `${pAPI}/get_bands?product=${productId}&granularity=${granularity}`
     fetch(requestPath, config)
@@ -70,6 +77,8 @@ export default class Algorithms extends React.Component {
       this.setState({
         bands: {...this.state.bands, [productId]: bands}
       })
+    }).catch(e => {
+      console.warn(`There was an error: ${e}`)
     })
   }
 
@@ -193,13 +202,14 @@ export default class Algorithms extends React.Component {
 
       // eslint-disable-next-line
       this.state.socket.onerror = (error) => {
-        console.log("There was an error: ", error.json());
+        console.warn("There was an error: ", error);
       }
     })
   }
 
   componentWillUnmount() {
     this.state.socket.close()
+    this.state.controller.abort()
   }
 
 }
