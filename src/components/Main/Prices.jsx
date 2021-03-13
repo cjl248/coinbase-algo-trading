@@ -7,7 +7,8 @@ const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 export default class Prices extends React.Component {
 
   state = {
-    socket: null,
+    socket: new WebSocket(websocketAPI),
+    controller: new AbortController(),
     productList: [],
     prices: {},
     sortedPrices: [],
@@ -22,7 +23,8 @@ export default class Prices extends React.Component {
       headers: {
         'Content-Type': 'application/json',
         'Accepts': 'application/json'
-      }
+      },
+      signal: this.state.controller.signal
     }
     const response = await fetch(productListAPI, config)
     response.json().then(data => {
@@ -193,7 +195,7 @@ export default class Prices extends React.Component {
 
         // eslint-disable-next-line
         this.state.socket.onerror = (error) => {
-          console.log("There was an error: ", error);
+          console.warn("There was an error: ", error);
         }
       })
     }).catch(e => {
@@ -202,18 +204,7 @@ export default class Prices extends React.Component {
   }
 
   componentWillUnmount() {
-
-    // const unsubscribe = {
-    //   "type": "unsubscribe",
-    //   "product_ids": this.state.productList,
-    //   "channels": [ "ticker" ]
-    // }
-    // this.state.socket.send(JSON.stringify(unsubscribe))
     this.state.socket.close()
-
-    // eslint-disable-next-line
-    // this.state.socket.onclose = () => {
-      // this.setState({socket: null})
-    // }
+    this.state.controller.abort()
   }
 }
