@@ -4,8 +4,8 @@ import Orders from './Home/Orders.jsx'
 import Assets from './Home/Assets.jsx'
 import Signals from './Home/Signals.jsx'
 
-const aAPI = 'http://localhost:3000/c_accounts'
-const pAPI = 'http://localhost:3000/c_products'
+const aAPI = 'https://coinbase-algo-backend.herokuapp.com/c_accounts'
+const pAPI = 'https://coinbase-algo-backend.herokuapp.com/c_products'
 
 export default class Home extends React.Component {
 

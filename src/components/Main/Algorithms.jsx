@@ -3,7 +3,7 @@ import Bands from './Algorithms/Bands.jsx'
 import Fibonacci from './Algorithms/Fibonacci.jsx'
 import MovingAverages from './Algorithms/MovingAverages.jsx'
 
-const pAPI = 'http://localhost:3000/c_products'
+const pAPI = 'https://coinbase-algo-backend.herokuapp.com/c_products'
 const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 
 

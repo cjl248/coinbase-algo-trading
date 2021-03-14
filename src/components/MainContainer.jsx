@@ -8,8 +8,8 @@ import Prices from './Main/Prices.jsx'
 import Algorithms from './Main/Algorithms.jsx'
 import Modal from './Modal.jsx'
 
-const aAPI = 'http://localhost:3000/c_accounts'
-const oAPI = 'http://localhost:3000/c_orders'
+const aAPI = 'https://coinbase-algo-backend.herokuapp.com/c_accounts'
+const oAPI = 'https://coinbase-algo-backend.herokuapp.com/c_orders'
 
 export default function MainContainer({ setActivePage, activePage, activeSection }) {
 
