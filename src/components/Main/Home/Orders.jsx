@@ -2,7 +2,7 @@ import React from 'react'
 import Loading from '../../Loading.jsx'
 import Button from '@material-ui/core/Button'
 
-const oAPI = 'http://localhost:3000/c_orders'
+const oAPI = 'https://coinbase-algo-backend.herokuapp.com/c_orders'
 
 export default function Orders({ orders, setOrders }) {
 

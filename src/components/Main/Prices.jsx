@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from '@material-ui/core/Button'
 
-const productListAPI = 'http://localhost:3000/c_products/list'
+const productListAPI = 'https://coinbase-algo-backend.herokuapp.com/c_products/list'
 const websocketAPI = 'wss://ws-feed.pro.coinbase.com'
 
 export default class Prices extends React.Component {
