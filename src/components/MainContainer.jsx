@@ -32,12 +32,16 @@ export default function MainContainer({ setActivePage, activePage, activeSection
           return account.balance > 0
         })
         setActiveAccounts(activeAccounts)
+      }).catch(e => {
+        console.warn(`There was an error: ${e}`)
       })
       fetch(oAPI, config)
         .then(r => r.json())
         .then(orders => {
           if (!orders) return
           setOrders(orders)
+        }).catch(e => {
+          console.warn(`There was an error: ${e}`)
         })
     },[setActiveAccounts, setOrders])
 

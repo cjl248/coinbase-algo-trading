@@ -40,7 +40,7 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://cjl248.github.io/coinbase-algo-trading",
+  "homepage": "https://cjl248.github.io/coinbase-algo-trading",
   "devDependencies": {
     "gh-pages": "^3.1.0"
   }
