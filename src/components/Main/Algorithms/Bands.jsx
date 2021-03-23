@@ -16,9 +16,9 @@ export default class Bands extends React.Component {
               <div className='b-currency-title'>{`Currency: ${currency}`}</div>
               <div className='b-level'>
                 <div className='level-title'>{`Standard Deviation: ${level}`}</div>
-                <div className='b-level'>{`$${this.precise(stats[0])}`}</div>
-                <div className='b-level'>{`$${this.precise(stats[1])}`}</div>
-                <div className='b-level'>{`$${this.precise(stats[2])}`}</div>
+                <div className='b-level'>{`-1 STD: $${this.precise(stats[0])}`}</div>
+                <div className='b-level'>{`Mean: $${this.precise(stats[1])}`}</div>
+                <div className='b-level'>{`+1 STD: $${this.precise(stats[2])}`}</div>
               </div>
             </div>
           )
