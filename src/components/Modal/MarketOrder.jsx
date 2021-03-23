@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button';
 * side, product_id funds
 */
 
-const oAPI = "http://localhost:3000/c_orders/market_order"
+const oAPI = "https://coinbase-algo-backend.herokuapp.com/c_orders/market_order"
 
 export default function MarketOrder({ modal, market, action, activeAccounts, allAccounts=[], setMessage, orders, setOrders}) {
 

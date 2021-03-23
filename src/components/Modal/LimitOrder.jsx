@@ -12,7 +12,7 @@ import Button from '@material-ui/core/Button'
 * side, product_id, size, price, time_in_force=nil, cancel_after=nil
 */
 
-const oAPI = "http://localhost:3000/c_orders/limit_order"
+const oAPI = "https://coinbase-algo-backend.herokuapp.com/c_orders/limit_order"
 
 export default function LimitOrder({ modal, buy, action, activeAccounts, allAccounts, setMessage, orders, setOrders }) {
 

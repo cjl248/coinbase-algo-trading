@@ -3,7 +3,7 @@ import Toggle from './Modal/Toggle.jsx'
 import MarketOrder from './Modal/MarketOrder.jsx'
 import LimitOrder from './Modal/LimitOrder.jsx'
 
-const aAPI = 'http://localhost:3000/c_accounts'
+const aAPI = 'https://coinbase-algo-backend.herokuapp.com/c_accounts'
 
 export default function Modal({ modal, activeAccounts, orders, setOrders }) {
 
