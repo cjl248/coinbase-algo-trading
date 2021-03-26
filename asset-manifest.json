@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/coinbase-algo-trading/static/css/main.3c33b3f6.chunk.css",
-    "main.js": "/coinbase-algo-trading/static/js/main.c77c68c3.chunk.js",
-    "main.js.map": "/coinbase-algo-trading/static/js/main.c77c68c3.chunk.js.map",
+    "main.css": "/coinbase-algo-trading/static/css/main.826cd9e0.chunk.css",
+    "main.js": "/coinbase-algo-trading/static/js/main.2f42e83a.chunk.js",
+    "main.js.map": "/coinbase-algo-trading/static/js/main.2f42e83a.chunk.js.map",
     "runtime-main.js": "/coinbase-algo-trading/static/js/runtime-main.b46879a6.js",
     "runtime-main.js.map": "/coinbase-algo-trading/static/js/runtime-main.b46879a6.js.map",
     "static/js/2.e6ab7bbc.chunk.js": "/coinbase-algo-trading/static/js/2.e6ab7bbc.chunk.js",
@@ -10,13 +10,13 @@
     "static/js/3.6b5db0d2.chunk.js": "/coinbase-algo-trading/static/js/3.6b5db0d2.chunk.js",
     "static/js/3.6b5db0d2.chunk.js.map": "/coinbase-algo-trading/static/js/3.6b5db0d2.chunk.js.map",
     "index.html": "/coinbase-algo-trading/index.html",
-    "static/css/main.3c33b3f6.chunk.css.map": "/coinbase-algo-trading/static/css/main.3c33b3f6.chunk.css.map",
+    "static/css/main.826cd9e0.chunk.css.map": "/coinbase-algo-trading/static/css/main.826cd9e0.chunk.css.map",
     "static/js/2.e6ab7bbc.chunk.js.LICENSE.txt": "/coinbase-algo-trading/static/js/2.e6ab7bbc.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b46879a6.js",
     "static/js/2.e6ab7bbc.chunk.js",
-    "static/css/main.3c33b3f6.chunk.css",
-    "static/js/main.c77c68c3.chunk.js"
+    "static/css/main.826cd9e0.chunk.css",
+    "static/js/main.2f42e83a.chunk.js"
   ]
 }
